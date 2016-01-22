@@ -1,33 +1,61 @@
-<form name="userForm" novalidate ng-submit="userSave(user)" class="col-md-6 col-md-offset-3">
-  <div class="form-group">
-    <label for="wordNo">工号</label>
-    <input type="text" class="form-control" id="wordNo" ng-model="user.wordNo" placeholder="工号">
-  </div>
-  <div class="form-group">
-    <label for="name">姓名</label>
-    <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="姓名">
-  </div>
-  <div class="form-group">
-    <label>照片</label>
-    <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-      class="cropArea" ng-show="!picFile">
-      <div class="btn btn-default" ngf-select ng-model="picFile" name="file" ngf-pattern="'image/*'"
-           ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
-           ngf-resize="{width: 100, height: 100}">上传</div>
-      <b>或者</b>将图片拖动到这里
-    </div>
-    <div class="cropArea" ng-show="picFile">
-      <div class="thumbnail">
-        <img ngf-src="picFile"/>
-      </div>
-      <b>{{picFile.$ngfName}}</b>
-      <div class="btn btn-default" ngf-drop ng-model="picFile">重新选择</div>
-    </div>
-  </div>
+<section class="col-md-4 col-md-offset-2">
+    <form name="userForm" novalidate ng-submit="userSave(user)">
+        <div class="form-group">
+            <label for="wordNo">工号</label>
+            <input type="text" class="form-control" id="wordNo" ng-model="user.wordNo" placeholder="工号">
+        </div>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="姓名">
+        </div>
+        <div class="form-group">
+            <label>照片</label>
 
-  <div class="form-group">
-    <label for="ip">IP</label>
-    <input type="text" class="form-control" id="ip" ng-model="user.ip" placeholder="IP地址">
-  </div>
-  <button type="submit" class="btn btn-default">保存</button>
-</form>
+            <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+                 class="cropArea" ng-show="!picFile">
+                <div class="btn btn-default" ngf-select ng-model="picFile" name="file" ngf-pattern="'image/*'"
+                     ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+                     ngf-resize="{width: 100, height: 100}">上传
+                </div>
+                <b>或者</b>
+                将图片拖动到这里
+            </div>
+            <div class="cropArea" ng-show="picFile">
+                <img ngf-thumbnail="picFile"/>
+                <!--<b>{{picFile.$ngfName}}</b>-->
+                <div class="btn btn-default" ng-model="picFile" ng-click="picFile = null">移除</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ip">IP</label>
+            <input type="text" class="form-control" id="ip" ng-model="user.ip" placeholder="IP地址">
+        </div>
+        <button type="submit" class="btn btn-default">保存</button>
+    </form>
+</section>
+<section class="col-md-5 col-md-offset-1">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>IP</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in userList">
+                    <td scope="row">{{$index+1}}</td>
+                    <td>{{user._id}}</td>
+                    <td>{{user.workNo}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.ip}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

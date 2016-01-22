@@ -1,6 +1,8 @@
 'use strict';
 var userController = {},
-	userModel = require('../models/user');
+	userModel = require('../models/user'),
+	config = require('../config/config'),
+	logger = require('../utils/log').logger;
 
 userController.list = function (req, res, next) {
 	userModel.getAll(function (err, data) {
@@ -14,20 +16,29 @@ userController.get = function (req, res, next) {
 }
 
 userController.create = function (req, res, next) {
-	var user = new userModel({
-    workNo: Math.floor(1000 + Math.random()*(9999 - 1000)) + '',
-    picPath: '111',
-    ip: '127.0.0.1',
-    phone: '13333333333',
-    luckMan: ''
+	var fs = require("fs");
+	var file = req.files.file;
+	console.log(file);
+	var temp_path = file.path,
+		new_path = config.uplpadDir + file.name;
+	fs.rename(temp_path, new_path, function(err) {
+		if(err) {
+			logger.error(err);
+		}
 	});
-	user.create(function (err, data) {
-		res.send(user);
+	new userModel.create({
+		workNo: Math.floor(1000 + Math.random() * (9999 - 1000)) + '',
+		picPath: new_path,
+		ip: '127.0.0.1',
+		phone: '13333333333',
+		luckMan: ''
+	},function (err, data) {
+		res.json(data);
 	});
 };
 
 
-userController.lottery = function (req, res) {
+userController.lottery = function (req, res, next) {
 
 };
 

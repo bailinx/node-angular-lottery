@@ -5,5 +5,6 @@ module.exports = {
     env                     : 'development',
     port                    : 3000,
     cookieSecret            : 'angular-lottery',// cookie密钥
-    connectionString        : 'mongodb://localhost/lottery'
+    connectionString        : 'mongodb://localhost/lottery',
+	uplpadDir               : '../public/upload/'
 }
