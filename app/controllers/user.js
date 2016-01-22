@@ -16,24 +16,29 @@ userController.get = function (req, res, next) {
 }
 
 userController.create = function (req, res, next) {
-	var fs = require("fs");
-	var file = req.files.file;
-	console.log(file);
-	var temp_path = file.path,
+	var fs = require("fs"),
+		file = req.files.file,
+		temp_path = file.path,
 		new_path = config.uplpadDir + file.name;
 	fs.rename(temp_path, new_path, function(err) {
 		if(err) {
 			logger.error(err);
 		}
 	});
-	new userModel.create({
+	userModel.create({
 		workNo: Math.floor(1000 + Math.random() * (9999 - 1000)) + '',
+		name: 'radishj',
 		picPath: new_path,
 		ip: '127.0.0.1',
 		phone: '13333333333',
 		luckMan: ''
-	},function (err, data) {
-		res.json(data);
+	}, function (err, data) {
+		if(!err) {
+			res.json(data);
+		} else {
+			logger.error(err);
+			res.send('500');
+		}
 	});
 };
 
