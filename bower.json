@@ -1,0 +1,27 @@
+{
+  "name": "angular-lottery",
+  "description": "使用X-MEAN-SEED构建的新年抽奖项目",
+  "main": [],
+  "authors": [
+    "radishj <423261989@qq.com>"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "homepage": "https://github.com/radishj/angular-lottery",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html5-boilerplate": "~5.2.0",
+    "requirejs": "~2.1.22",
+    "angular": "~1.4.8",
+    "angular-route": "~1.4.8",
+    "requirejs-domready": "~2.0.1",
+    "angular-toastr": "~1.6.0",
+    "angular-ui-router": "~0.2.15"
+  }
+}
