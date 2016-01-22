@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-    name                    : 'angular-lottery',
+    name                    : 'node-angular-lottery',
     /* production: 生产环境 development: 开发环境 */
     env                     : 'development',
     port                    : 3000,

@@ -3,8 +3,8 @@ define(['./module'], function (services) {
     services.factory('UserService', ['$rootScope', '$http',
         function ($rootScope, $http) {
             return {
-                login: function (credentials, callback) {
-                    $http.post('/user/login', credentials)
+                create: function (credentials, callback) {
+                    $http.post('/user/create', credentials)
                         .success(function (data, status) {
                             callback(null, data);
                         })
@@ -12,8 +12,8 @@ define(['./module'], function (services) {
                             callback(e);
                         });
                 },
-                getAll: function (callback) {
-                    $http.get('/user/list')
+                lottery: function (callback) {
+                    $http.get('/user/lottery')
                         .success(function (data, status) {
                             callback(null, data);
                         })

@@ -5,13 +5,17 @@ require.config({
 		'uiRouter': "../libs/angular-ui-router/release/angular-ui-router",
 		'angularAnimate': "../libs/angular-animate/angular-animate",
 		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
-		'domReady': "../libs/requirejs-domready/domReady"
+		'domReady': "../libs/requirejs-domready/domReady",
+		'flow': "../libs/ng-flow/dist/ng-flow-standalone"
 	},
 	shim: {
 		'angular': {
 			'exports': 'angular'
 		},
 		'uiRouter': {
+			deps: ['angular']
+		},
+		'flow': {
 			deps: ['angular']
 		},
 		'angularAnimate': {

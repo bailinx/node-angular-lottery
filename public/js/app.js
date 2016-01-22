@@ -1,6 +1,7 @@
 define([
 		"angular",
 		'uiRouter',
+		'flow',
 		'angularAnimate',
 		'angularToastr',
 		'./controllers/index',
@@ -12,6 +13,7 @@ define([
 		return ng.module('app', [
 			'ngAnimate',
 			'toastr',
+			'flow',
 			'app.controllers',
 			'app.directives',
 			'app.filters',
