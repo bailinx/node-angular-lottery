@@ -6,7 +6,7 @@ require.config({
 		'angularAnimate': "../libs/angular-animate/angular-animate",
 		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
 		'domReady': "../libs/requirejs-domready/domReady",
-		'flow': "../libs/ng-flow/dist/ng-flow-standalone"
+		'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all"
 	},
 	shim: {
 		'angular': {
@@ -15,7 +15,7 @@ require.config({
 		'uiRouter': {
 			deps: ['angular']
 		},
-		'flow': {
+		'ngFileUpload': {
 			deps: ['angular']
 		},
 		'angularAnimate': {

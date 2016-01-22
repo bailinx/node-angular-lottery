@@ -8,26 +8,23 @@
     <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="姓名">
   </div>
   <div class="form-group">
-    <div flow-init="{singleFile: true}"
-         flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
-      <label>照片</label>
-      <div class="drop" flow-drop class="dropClass" ng-show="!$flow.files.length">
-        <span class="btn btn-default" flow-btn>选择文件</span>
-        <b>或者</b>
-        将文件拖放文件到这里
+    <label>照片</label>
+    <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+      class="cropArea" ng-show="!picFile">
+      <div class="btn btn-default" ngf-select ng-model="picFile" name="file" ngf-pattern="'image/*'"
+           ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+           ngf-resize="{width: 100, height: 100}">上传</div>
+      <b>或者</b>将图片拖动到这里
+    </div>
+    <div class="cropArea" ng-show="picFile">
+      <div class="thumbnail">
+        <img ngf-src="picFile"/>
       </div>
-      <div class="thumbnail" ng-show="$flow.files.length">
-        <img flow-img="$flow.files[0]"/>
-      </div>
-      <div>
-        <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
-        <span class="btn btn-danger" ng-show="$flow.files.length"
-              ng-click="$flow.cancel()">
-          Remove
-        </span>
-      </div>
+      <b>{{picFile.$ngfName}}</b>
+      <div class="btn btn-default" ngf-drop ng-model="picFile">重新选择</div>
     </div>
   </div>
+
   <div class="form-group">
     <label for="ip">IP</label>
     <input type="text" class="form-control" id="ip" ng-model="user.ip" placeholder="IP地址">

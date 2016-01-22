@@ -5,13 +5,9 @@ body {
 .mid-centent {
   padding-top: 6rem;
 }
-.drop {
+.cropArea {
   padding: 15px;
   border: 2px #f1f1f1 dashed;
   border-radius: 5px;
   line-height: 34px;
-}
-.drop.drag-over {
-  background: #5CB85C;
-  color: #fff;
 }
