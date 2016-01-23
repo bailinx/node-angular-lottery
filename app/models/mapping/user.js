@@ -11,4 +11,4 @@ var schema = new Schema({
 	luckMan: String
 });
 
-mongoose.model('user', schema, 'user');
+mongoose.model('user', schema);
