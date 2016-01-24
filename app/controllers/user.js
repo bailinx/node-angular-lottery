@@ -41,6 +41,17 @@ userController.create = function (req, res, next) {
 	});
 };
 
+userController.delete = function (req, res, next) {
+	logger.warn(req.connection.remoteAddress + '/delete/' + req.params.id);
+	userModel.delete({ _id: req.params.id }, function (err) {
+		if(!err) {
+			res.send('success');
+		} else {
+			logger.error(err);
+			res.send('500');
+		}
+	});
+};
 
 userController.lottery = function (req, res, next) {
 

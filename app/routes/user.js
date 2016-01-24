@@ -4,9 +4,10 @@ var userController = require('../controllers/user');
 /* GET users listing. */
 router.get('/list', userController.list);
 router.get('/:id', userController.get);
+router.get('/lottery', userController.lottery);
 
 router.post('/create', userController.create);
 
-router.get('/lottery', userController.lottery);
+router.delete('/delete/:id', userController.delete);
 
 module.exports = router;

@@ -2,7 +2,7 @@
     <form name="userForm" novalidate ng-submit="userSave(user)">
         <div class="form-group">
             <label for="wordNo"><span class="red"> * </span>工号</label>
-            <input type="text" class="form-control" id="wordNo" ng-model="user.workNo" placeholder="工号" ng-required="true">
+            <input type="text" class="form-control" id="wordNo" ng-model="user.workNo" maxlength="6" placeholder="工号" ng-required="true">
         </div>
         <div class="form-group">
             <label for="name"><span class="red"> * </span>姓名</label>
@@ -44,6 +44,7 @@
                     <th>工号</th>
                     <th>姓名</th>
                     <th>IP</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,6 +53,9 @@
                     <td>{{user.workNo}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.ip}}</td>
+                    <td>
+                        <a href="javascript:;" ng-click="userDel(user._id)">删除</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

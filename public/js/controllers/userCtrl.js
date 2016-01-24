@@ -45,6 +45,25 @@ define(['./module'], function (controllers) {
 				}
 			});
 
+			$scope.userDel = function (id) {
+				angular.forEach($scope.userCache, function (user, idx) {
+					if(user._id == id) {
+						userService.delete(user, function (err, data) {
+							if (!err) {
+								if('success' != data) {
+									notify.success('删除[' + user.name + ']失败,原因是' + data, 'node-angular-lottery');
+								} else {
+									$scope.userCache.splice(idx, 1);
+									$scope.$broadcast('event:user-refresh', $scope.userCache);
+									notify.success('删除[' + user.name + ']成功!', 'node-angular-lottery');
+								}
+							} else {
+								notify.error('删除用户失败.', 'node-angular-lottery');
+							}
+						});
+					}
+				});
+			}
 			// https://github.com/danialfarid/ng-file-upload
 			$scope.userSave = function (user) {
 				if ($scope.picFile) {
@@ -52,7 +71,6 @@ define(['./module'], function (controllers) {
 					$scope.userCache.push(user);
 					$scope.$broadcast('event:user-refresh', $scope.userCache);
 				}
-				//console.log(flow);
 			};
 
 			// upload on file select or drop

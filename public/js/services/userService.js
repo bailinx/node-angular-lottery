@@ -21,6 +21,15 @@ define(['./module'], function (services) {
                             callback(e);
                         })
                 },
+	            delete: function (user, callback) {
+		            $http.delete('/user/delete/' + user._id)
+			            .success(function (data, status) {
+				            callback(null, data);
+			            })
+			            .error(function (e) {
+				            callback(e);
+			            });
+	            },
                 lottery: function (callback) {
                     $http.get('/user/lottery')
                         .success(function (data, status) {
