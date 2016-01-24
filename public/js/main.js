@@ -3,6 +3,7 @@ require.config({
 	paths: {
 		'angular': "../libs/angular/angular",
 		'uiRouter': "../libs/angular-ui-router/release/angular-ui-router",
+		'uiBootstrap': "../libs/angular-bootstrap/ui-bootstrap-tpls",
 		'angularAnimate': "../libs/angular-animate/angular-animate",
 		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
 		'domReady': "../libs/requirejs-domready/domReady",
@@ -13,6 +14,9 @@ require.config({
 			'exports': 'angular'
 		},
 		'uiRouter': {
+			deps: ['angular']
+		},
+		'uiBootstrap': {
 			deps: ['angular']
 		},
 		'ngFileUpload': {

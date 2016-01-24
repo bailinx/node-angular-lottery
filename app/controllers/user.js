@@ -8,7 +8,6 @@ userController.list = function (req, res, next) {
 	userModel.getAll(function (err, data) {
 		res.json(data);
 	});
-	// res.send('respond with a resource');
 }
 
 userController.get = function (req, res, next) {
@@ -26,11 +25,11 @@ userController.create = function (req, res, next) {
 		}
 	});
 	userModel.create({
-		workNo: Math.floor(1000 + Math.random() * (9999 - 1000)) + '',
-		name: 'radishj',
+		workNo: req.body.user.workNo,
+		name: req.body.user.name,
 		picPath: new_path,
-		ip: '127.0.0.1',
-		phone: '13333333333',
+		ip: req.body.user.ip,
+		phone: req.body.user.phone,
 		luckMan: ''
 	}, function (err, data) {
 		if(!err) {

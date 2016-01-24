@@ -1,6 +1,7 @@
 define([
 		"angular",
 		'uiRouter',
+		'uiBootstrap',
 		'ngFileUpload',
 		'angularAnimate',
 		'angularToastr',
@@ -18,7 +19,8 @@ define([
 			'app.directives',
 			'app.filters',
 			'app.services',
-			'ui.router'
+			'ui.router',
+			'ui.bootstrap'
 		]).config(function ($httpProvider) {
 			// 在这里构造拦截器
 			var interceptor = function($q) {
