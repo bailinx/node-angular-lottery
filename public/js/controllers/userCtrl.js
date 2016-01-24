@@ -1,8 +1,7 @@
 define(['./module'], function (controllers) {
 	'use strict';
-	controllers.run
-	controllers.controller('UserCtrl', ['$scope', 'NotifyService', 'Upload', 'UserService',
-		function ($scope, notify, Upload, userService) {
+	controllers.controller('UserCtrl', ['$scope', 'NotifyService', 'Upload', 'UserService', 'SocketService',
+		function ($scope, notify, Upload, userService, socket) {
 			// event
 			$scope.$on('event:user-refresh', function(d,data) {
 				$scope.totalItems = data.length;
