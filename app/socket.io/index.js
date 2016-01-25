@@ -14,7 +14,7 @@ Sockets.init = function (server) {
     io.on('connection', onConnection);
 
     io.listen(server);
-
+    logger.info(Namespaces);
     Sockets.server = io;
 };
 
@@ -34,26 +34,35 @@ function onConnection(socket)
         onDisconnect(socket, data);
     });
 
-    socket.on('*', function(payload) {
-        onMessage(socket, payload);
+    /* user */
+    socket.on('user.notSendList', function(data) {
+        Namespaces.user.notSendList(socket);
     });
+    socket.on('user.hasSendList', function(data) {
+        Namespaces.user.hasSendList(socket);
+    });
+    socket.on('user.getAll', function(data) {
+        Namespaces.user.getAll(socket);
+    });
+
 }
 
 // 加载所有模块
 function requireModules() {
-    var modules = [];
+    var modules = ['user'];
     modules.forEach(function(module) {
         Namespaces[module] = require('./' + module);
     })
 }
 function onMessage(socket, payload) {
+    logger.info("-=---------");
     if(!payload.data.length) {
         return logger.warn('[socket.io] 消息为空');
     }
     var eventName = payload.data[0];
     var params = payload.data[1];
     var callback = typeof payload.data[payload.data.length - 1] === 'function' ? payload.data[payload.data.length - 1] : function() {};
-
+    logger.info("xxxx-" + eventName + params);
     if (!eventName) {
         return logger.warn('[socket.io] 方法名为空');
     }
@@ -84,7 +93,7 @@ function onDisconnect(socket, data) {
     if (socket.uid) {
         var socketCount = Sockets.getSocketCount(socket.uid);
         if (socketCount <= 1) {
-            socket.broadcast.emit('event:user_disconnected', {uid: socket.uid, status: 'offline'});
+            socket.broadcast.emit('user_disconnected', {uid: socket.uid, status: 'offline'});
         }
     }
 }
