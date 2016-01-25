@@ -38,13 +38,23 @@ function onConnection(socket)
     socket.on('user.notSendList', function(data) {
         Namespaces.user.notSendList(socket);
     });
+	// 已经送礼物的用户
     socket.on('user.hasSendList', function(data) {
         Namespaces.user.hasSendList(socket);
     });
+	// 所有用户
     socket.on('user.getAll', function(data) {
         Namespaces.user.getAll(socket);
     });
+	// 用户信息
+    socket.on('user.info', function(data) {
+        Namespaces.user.userInfo(socket, data);
+    });
 
+	/* 抽奖 */
+	socket.on('user.lottery', function(id) {
+		Namespaces.user.lottery(socket, id);
+	});
 }
 
 // 加载所有模块

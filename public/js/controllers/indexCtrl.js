@@ -3,18 +3,40 @@ define(['./module'], function (controllers) {
 	controllers.controller('IndexCtrl', ['$scope' , 'NotifyService', 'SocketService',
 		function ($scope, notify, socket) {
             $scope.hasSendList = [];
+			$scope.userCache = [];
 
-            socket.on('user.notSendList.repley',function (data) {
+			$scope.lottery = function (id) {
+				socket.emit('user.lottery', id);
+			}
+
+			//socket.on('user.notSendList.repley',function (data) {
+			//	console.log(data);
+			//});
+			//socket.emit('user.notSendList');
+			// æ‰€æœ‰ç”¨æˆ·
+			socket.emit('user.getAll');
+			socket.on('user.getAll.repley', function (data) {
 				console.log(data);
 			});
-			socket.emit('user.notSendList');
-
-            // ËùÓĞÓĞÀñÎïµÄÈË
+            // å·²é€ç¤¼ç‰©åˆ—è¡¨
+			socket.emit('user.hasSendList');
             socket.on('user.hasSendList.repley', function (data) {
                 console.log(data);
             });
-            socket.emit('user.hasSendList');
-
+			// ç”¨æˆ·ä¿¡æ¯
+			socket.emit('user.info', '090491');
+			socket.on('user.info.repley', function (data) {
+				$scope.userInfo = data;
+				console.log(data);
+			});
+			// é€ç¤¼ç‰©æ¶ˆæ¯
+			socket.on('user.lottery.repley', function (data) {
+				console.log(data);
+			});
+			// é”™è¯¯ä¿¡æ¯
+			socket.on('error', function (data) {
+				console.error(data);
+			});
 			notify.success('Loading completed.', 'node-angular-lottery');
 		}
 	]);
