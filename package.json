@@ -5,6 +5,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "~1.13.2",
     "connect-mongo": "^1.0.2",
     "connect-multiparty": "^2.0.0",

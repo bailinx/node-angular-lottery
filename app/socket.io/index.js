@@ -35,9 +35,9 @@ function onConnection(socket)
     });
 
     /* user */
-    socket.on('user.notSendList', function(data) {
-        Namespaces.user.notSendList(socket);
-    });
+    //socket.on('user.notSendList', function(data) {
+    //    Namespaces.user.notSendList(socket);
+    //});
 	// 已经送礼物的用户
     socket.on('user.hasSendList', function(data) {
         Namespaces.user.hasSendList(socket);

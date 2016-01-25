@@ -5,10 +5,16 @@ define(['./module'], function (controllers) {
             $scope.hasSendList = [];
 			$scope.userCache = [];
 
+			// 抽奖
 			$scope.lottery = function (id) {
 				socket.emit('user.lottery', id);
 			}
 
+			// 最新抽奖信息
+			socket.on('user.lottery.new', function (data) {
+				console.log("抽奖信息");
+				console.log(data);
+			});
 			//socket.on('user.notSendList.repley',function (data) {
 			//	console.log(data);
 			//});
@@ -33,9 +39,19 @@ define(['./module'], function (controllers) {
 			socket.on('user.lottery.repley', function (data) {
 				console.log(data);
 			});
+
+
+			// Success
+			socket.on('system.success', function (data) {
+				notify.success(data.msg);
+			});
+			// Info
+			socket.on('system.info', function (data) {
+				notify.info(data.msg);
+			});
 			// 错误信息
-			socket.on('error', function (data) {
-				console.error(data);
+			socket.on('system.error', function (data) {
+				notify.error(data.msg);
 			});
 			notify.success('Loading completed.', 'node-angular-lottery');
 		}
