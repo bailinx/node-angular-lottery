@@ -8,7 +8,7 @@ require.config({
 		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
 		'domReady': "../libs/requirejs-domready/domReady",
 		'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all",
-		'io': "../libs/socket.io-client/socket.io",
+		'socket.io': "../libs/socket.io-client/socket.io",
 		'btford.socket-io': '../libs/angular-socket-io/socket'
 	},
 	shim: {
@@ -16,7 +16,7 @@ require.config({
 			'exports': 'angular'
 		},
 		'btford.socket-io': {
-			'deps': ['angular', 'io']
+			'deps': ['angular', 'socket.io']
 		},
 		'uiRouter': {
 			deps: ['angular']

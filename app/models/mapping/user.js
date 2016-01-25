@@ -8,7 +8,7 @@ var schema = new Schema({
 	picPath: String,
 	ip: String,
 	phone: String,
-	luckMan: String
+	hasSend: Number
 });
 
 mongoose.model('user', schema);

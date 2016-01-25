@@ -30,7 +30,7 @@ userController.create = function (req, res, next) {
 		picPath: new_path,
 		ip: req.body.user.ip,
 		phone: req.body.user.phone,
-		luckMan: ''
+		hasSend: 0
 	}, function (err, data) {
 		if(!err) {
 			res.json(data);
