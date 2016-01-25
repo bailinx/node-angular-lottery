@@ -3,6 +3,7 @@
 var SocketUser = {},
     notSendPeo = [],
     hasSendPeo = [],
+	async = require('async'),
     userModel = require('../models/user');
 
 // 初始化奖池
@@ -125,13 +126,25 @@ SocketUser.lottery = function (socket, id) {
  * @param userInfo
  */
 function lotteryHelper(socket, rdmIdx, userInfo) {
-	var link = [];
-	link.push(notSendPeo[rdmIdx]);
-	link.push(userInfo);
-	socket.emit('user.lottery.new', link);
-	// 广播
-	socket.broadcast.emit('user.lottery.new', link);
-	notSendPeo.splice(rdmIdx, 1);
+	// async http://blog.csdn.net/jiangcs520/article/details/17350927
+	// 流程控制
+	async.waterfall([
+		function (cb) {
+			userModel.getByQuery({'workNo': workNo}, function(err, data){
+				cb(err, result);
+			});
+		}
+	], function(err, results) {
+
+		// 完成之后的处理
+		var link = [];
+		link.push(notSendPeo[rdmIdx]);
+		link.push(userInfo);
+		socket.emit('user.lottery.new', link);
+		// 广播
+		socket.broadcast.emit('user.lottery.new', link);
+		notSendPeo.splice(rdmIdx, 1);
+	})
 }
 
 module.exports = SocketUser;
