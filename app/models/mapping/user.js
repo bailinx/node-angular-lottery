@@ -10,7 +10,8 @@ var schema = new Schema({
 	phone: String,
 	hasSend: Number,
 	sendTime: Date,
-	luckMan: {}
+	sendPeo: {}, // 他送礼物的人
+	recivePeo: {} // 送他礼物的人
 });
 
 mongoose.model('user', schema);

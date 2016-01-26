@@ -10,8 +10,10 @@ var SocketIO = require('socket.io'),
 Sockets.init = function (server) {
     requireModules();
     io = new SocketIO();
-
     io.on('connection', onConnection);
+    // 初始化奖池数据
+    Namespaces.user.getNotSendPeo();
+    Namespaces.user.getNotRecivePeo();
 
     io.listen(server);
     logger.info(Namespaces);
