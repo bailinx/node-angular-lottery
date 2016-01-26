@@ -3,7 +3,6 @@
 var SocketUser = {},
     notSendPeo = [],
     notRecivePeo = [],
-    hasSendPeo = [],
 	async = require('async'),
     userModel = require('../models/user'),
     logger = require('../utils/log').logger;
@@ -21,9 +20,8 @@ SocketUser.getAll = function (socket) {
 
 // 已经送出礼物的列表
 SocketUser.hasSendList = function (socket) {
-    userModel.getByQuery({'hasSend': 1}, function(err, data){
+    userModel.getByQuery({'sendPeo': {$exists:true}}, function(err, data){
         if(!err) {
-	        hasSendPeo = data;
             socket.emit('user.hasSendList.repley', data);
         } else {
             socket.emit('system.error', {'msg': '赠送列表获取失败'});
@@ -37,20 +35,20 @@ SocketUser.userInfo = function (socket, workNo) {
 		userModel.getByQuery({'workNo': workNo}, function(err, data){
 			if(!err) {
 				if(data.length != 0) {
-					socket.emit('user.info.repley', data[0]);
+					socket.emit('user.info.repley', { status: 'success', data: data[0]} );
 				} else {
-					socket.emit('user.info.repley', data);
+					socket.emit('user.info.repley', { status: 'success', data: data} );
 				}
 			} else {
-				socket.emit('system.error', {'msg': '用户不存在'});
+				socket.emit('user.info.repley', {status: 'success', data: '用户不存在'});
 			}
 		});
 	} else {
 		userModel.getByQuery({'ip': socket.ip}, function(err, data){
 			if(!err) {
-				socket.emit('user.info.repley', data);
+				socket.emit('user.info.repley', { status: 'success', data: data });
 			} else {
-				socket.emit('system.error', {'msg': 'IP不存在'});
+				socket.emit('user.info.repley', { status: 'success', data: '用户不存在' });
 			}
 		});
 	}
@@ -64,33 +62,52 @@ SocketUser.lottery = function (socket, id) {
 		userModel.getByQuery({_id: id}, function(err, data){
 			if(!err) {
 				if(data.length > 0) {
+                    if(data[0].sendPeo) {
+                        socket.emit('user.lottery.repley', {'msg': '你的礼物已经送给'+ data[0].sendPeo.name +'啦~', 'user': data[0]});
+                        return;
+                    }
+                    // 理论不会出现奖池为空的情况,至少剩自己
 					if(notSendPeo.length == 0) {
-                        SocketUser.getNotSendPeo(function() {
-							socket.emit('system.info', {'msg': '奖池为空啦，再抽一次试试~'});
-							// 奖池还是为空
-							//if(notSendPeo.length == 0) {
-							//	socket.emit('system.error', {'msg': '奖池为空啦~ 嘿嘿'});
-							//} else {
-							//	var rdmIdx = parseInt((Math.random()*notSendPeo.length), 10);
-							//	lotteryHelper(socket, rdmIdx, data[0]);
-							//}
-						});
-
+                        socket.emit('system.info', {'msg': '奖池为空啦，再抽一次试试~'});
 					} else {
-                        var rdmIdx = parseInt((Math.random()*notSendPeo.length), 10);
+                        var rdmIdx = parseInt((Math.random()*notSendPeo.length - 1), 10);
                         if(notRecivePeo[rdmIdx]._id.id == data[0]._id.id) {
                             if(notSendPeo.length == 1) {
                                 socket.emit('system.info', {'msg': '抱歉，只剩你一个人啦~'});
                             } else {
-                                while(notRecivePeo[rdmIdx]._id.id != data[0]._id.id) {
-                                    rdmIdx = parseInt((Math.random()*notSendPeo.length), 10)
-                                }
-                                lotteryHelper(socket, rdmIdx, data[0]);
+                                async.waterfall([
+                                    function (cb) {
+                                        if(notRecivePeo[rdmIdx]._id.id == data[0]._id.id) {
+                                            if(rdmIdx > 0) {
+                                                rdmIdx = rdmIdx - 1;
+                                            } else if(rdmIdx + 1 < notRecivePeo.length) {
+                                                rdmIdx = rdmIdx + 1;
+                                            } else {
+                                                rdmIdx = parseInt((Math.random()*notSendPeo.length));
+                                            }
+                                        }
+                                        logger.info("随机人：" + notRecivePeo[rdmIdx] +",rdmIdx:" + rdmIdx + ", total:" + notRecivePeo.length);
+                                        //for(var i=0; i< notRecivePeo.length; i++) {
+                                        //    if(notRecivePeo[rdmIdx]._id.id != data[0]._id.id) {
+                                        //        break;
+                                        //    } else {
+                                        //        rdmIdx = parseInt((Math.random()*notSendPeo.length), 10);
+                                        //    }
+                                        //}
+                                        //while(notRecivePeo[rdmIdx]._id.id != data[0]._id.id) {
+                                        //    rdmIdx = parseInt((Math.random()*notSendPeo.length), 10);
+                                        //}
+                                        cb(err, rdmIdx);
+                                    },
+                                    function (rdmIdx, cb) {
+                                        lotteryHelper(socket, rdmIdx, data[0]);
+                                        cb(err, null);
+                                    }
+                                ]);
                             }
                         } else {
                             lotteryHelper(socket, rdmIdx, data[0]);
                         }
-						//socket.emit('user.lottery.repley', data[0]);
 					}
 				} else {
 					socket.emit('system.error', {'msg': '用户不存在'});
@@ -151,8 +168,8 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
         } else {
             // 完成之后的处理
             var link = [];
-            link.push(notRecivePeo[rdmIdx]);
             link.push(userInfo);
+            link.push(notRecivePeo[rdmIdx]);
             socket.emit('user.lottery.new', link);
 
             // 删除未收到礼物的缓存
@@ -160,11 +177,13 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
             // 删除未送礼物的缓存
             for(var i = 0; i < notSendPeo.length; i++) {
                 if(notSendPeo[i]._id.id == userInfo._id.id) {
+                    logger.info(userInfo.name +"送出礼物已删除缓存");
                     notSendPeo.splice(i, 1);
+                    break;
                 }
             }
-            logger.info("当前未收到礼物的还有:" + notRecivePeo);
-            logger.info("当前未送出礼物的还有:" + notSendPeo);
+            logger.info("当前未收到礼物的还有:" + notRecivePeo.length);
+            logger.info("当前未送出礼物的还有:" + notSendPeo.length);
             // 广播
             socket.broadcast.emit('user.lottery.new', link);
         }

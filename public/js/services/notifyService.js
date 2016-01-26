@@ -17,13 +17,13 @@ define(['./module'], function (services) {
                     }
                     $log.info(message);
                 },
-                warning: function (message, title, options) {
+                warn: function (message, title, options) {
                     if( undefined === options || !options ) {
                         toastr.warning(message, title, defaults);
                     } else {
                         toastr.warning(message, title, options);
                     }
-                    $log.warning(message);
+                    $log.warn(message);
                 },
                 success: function (message, title, options) {
                     if( undefined === options || !options ) {

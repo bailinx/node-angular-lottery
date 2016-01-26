@@ -1,7 +1,56 @@
-你好，{{userInfo.name}}
-
-<button class="btn btn-default" ng-click="lottery(userInfo._id)">抽奖</button>
-<p>
-    Showing of 'interpolate' filter:
-    {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<div class="weather_snow_width">
+  <div class="shatan_width">
+    <div class="weather_snow_shatan"><i class="weather_snow_shatan_content"></i></div>
+  </div>
+  <div class="weather_snow">
+    <div class="weather_snow_xiong"><i class="weather_snow_xiong_content"></i></div>
+    <div class="weather_snow_xiongyingzi"><i class="weather_snow_xiongyingzi_content"></i></div>
+    <div class="weather_snow_gouhuo"><i class="weather_snow_gouhuo_content"></i></div>
+    <div class="weather_snow_saoba"><i class="weather_snow_saoba_content"></i></div>
+    <div class="weather_snow_xueren"><i class="weather_snow_xueren_content"></i></div>
+    <div class="weather_snow_songshu"><i class="weather_snow_songshu_content"></i></div>
+    <div class="weather_snow_yun1"><i class="weather_snow_yun1_content"></i></div>
+    <div class="weather_snow_yun2"><i class="weather_snow_yun2_content"></i></div>
+    <div class="weather_snow_yun3"><i class="weather_snow_yun3_content"></i></div>
+  </div>
+</div>
+<div>
+  你好，{{userInfo.name}}
+  <button class="btn btn-default" ng-click="lottery(userInfo._id)">抽奖</button>
+</div>
+<!--<div class="weather_cloudy_width">-->
+    <!--<div class="shatan_width">-->
+        <!--<div class="weather_cloudy_shatan"><i class="weather_cloudy_shatan_content"></i></div>-->
+    <!--</div>-->
+    <!--<div class="weather_cloudy">-->
+        <!--<div class="weather_cloudy_xiong"><i class="weather_cloudy_xiong_content"></i></div>-->
+        <!--<div class="weather_cloudy_shu"><i class="weather_cloudy_shu_content"></i></div>-->
+        <!--<div class="weather_cloudy_xiongyingzi"><i class="weather_cloudy_xiongyingzi_content"></i></div>-->
+        <!--<div class="weather_cloudy_shuye1"><i class="weather_cloudy_shuye1_content"></i></div>-->
+        <!--<div class="weather_cloudy_shuye2"><i class="weather_cloudy_shuye2_content"></i></div>-->
+        <!--<div class="weather_cloudy_yun1"><i class="weather_cloudy_yun1_content"></i></div>-->
+        <!--<div class="weather_cloudy_yun2"><i class="weather_cloudy_yun2_content"></i></div>-->
+        <!--<div class="weather_cloudy_yun3"><i class="weather_cloudy_yun3_content"></i></div>-->
+        <!--<div class="weather_cloudy_yun4"><i class="weather_cloudy_yun4_content"></i></div>-->
+        <!--<div class="weather_cloudy_taiyang"><i class="weather_cloudy_taiyang_content"></i></div>-->
+        <!--<div class="weather_cloudy_xiaoniao"><i class="weather_cloudy_xiaoniao_content"></i></div>-->
+    <!--</div>-->
+<!--</div>-->
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">登录有惊喜~</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="workNo">工号：</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="workNo" ng-model="workNo" placeholder="请输入工号..">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info btn-block" type="button" ng-click="ok()">登陆</button>
+  </div>
+</script>
