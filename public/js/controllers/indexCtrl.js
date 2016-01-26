@@ -1,7 +1,13 @@
 define(['./module'], function (controllers) {
 	'use strict';
-	controllers.controller('IndexCtrl', ['$scope', '$uibModal', 'NotifyService', 'SocketService',
-		function ($scope, $uibModal, notify, socket) {
+	controllers.config(function (localStorageServiceProvider) {
+		localStorageServiceProvider
+			.setPrefix('node-angular-lottery')
+			.setStorageType('sessionStorage')
+			.setNotify(true, true)
+	});
+	controllers.controller('IndexCtrl', ['$scope', '$uibModal', 'NotifyService', 'SocketService', 'localStorageService',
+		function ($scope, $uibModal, notify, socket, localStorageService) {
             // 初始化
 			$scope.userInfo = {};
             $scope.workNo = "";
@@ -22,24 +28,38 @@ define(['./module'], function (controllers) {
                 modalInstance.result.then(function (workNo) {
                     $scope.workNo = workNo;
                     socket.emit('user.info', workNo);
-                    console.log("workno:" + workNo);
                 }, function () {
                     notify.info('Modal dismissed at: ' + new Date());
                 });
             };
-            $scope.$watch('userInfo', function(newValue, oldValue, scope) {
-                scope.open('sm');
-                console.log(newValue + ":" +oldValue);
-            });
+
 			$scope.hasSendList = [];
 			$scope.userCache = [];
 
+			// 读取用户信息
+			if(!localStorageService.isSupported) {
+				notify.info("不支持sessionStorage，无法保存用户信息");
+			} else {
+				var userInfo = localStorageService.get('UserInfo');
+				if(userInfo) {
+					$scope.userInfo = userInfo;
+				} else {
+					$scope.open('sm');
+				}
+			}
+
 			// 用户信息
-			socket.emit('user.info', '');
+			//socket.emit('user.info', '');
 			socket.on('user.info.repley', function (result) {
 				if(result.status == 'success') {
 					$scope.userInfo = result.data;
-					console.log(result);
+					// 将用户信息保存到本地
+					if(localStorageService.isSupported) {
+						localStorageService.set('UserInfo', $scope.userInfo);
+					}
+				} else {
+					$scope.open('sm');
+					notify.warn(result.data);
 				}
 			});
 
@@ -49,10 +69,8 @@ define(['./module'], function (controllers) {
 			}
 
 			// 最新抽奖信息
-			socket.on('user.lottery.new', function (data) {
-				notify.success("抽奖信息" + data[0].name + " -> " + data[1].name);
-				//console.log("抽奖信息");
-				//console.log(data);
+			socket.on('user.lottery.new', function (user) {
+				notify.success("抽奖信息" + user.name + " -> " + user.sendPeo.name);
 			});
 			// 所有用户
 			socket.emit('user.getAll');
@@ -67,7 +85,14 @@ define(['./module'], function (controllers) {
 
 			// 送礼物消息
 			socket.on('user.lottery.repley', function (data) {
-				console.log(data);
+				//notify.success("1111抽奖信息" + reult.user.name + " -> " + reult.user.sendPeo.name);
+				notify.warn(data.msg);
+
+				$scope.userInfo = data.user;
+				// 将用户信息保存到本地
+				if(localStorageService.isSupported) {
+					localStorageService.set('UserInfo', $scope.userInfo);
+				}
 			});
 
 
@@ -84,13 +109,25 @@ define(['./module'], function (controllers) {
 				notify.error(data.msg);
 			});
 			notify.success('Loading completed.', 'node-angular-lottery');
+
+			// 事件绑定
+			$(".red-packet").click(function(){
+				$(this).addClass("shake");
+				setTimeout(function(){
+					$(".red-packet").removeClass("shake");
+					$(".windows").fadeIn();
+					$(".mask").fadeIn();
+					$scope.lottery($scope.userInfo._id);
+				},2000);
+			});
+			$(".close").click(function(){$(this).parent().fadeOut();$(".mask").fadeOut()});
 		}
 	]);
 	// model controller
 	controllers.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, workNo) {
         $scope.workNo = workNo;
 		$scope.ok = function () {
-			$uibModalInstance.close(workNo);
+			$uibModalInstance.close($scope.workNo);
 		};
 
 		$scope.cancel = function () {

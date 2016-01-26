@@ -37,18 +37,22 @@ SocketUser.userInfo = function (socket, workNo) {
 				if(data.length != 0) {
 					socket.emit('user.info.repley', { status: 'success', data: data[0]} );
 				} else {
-					socket.emit('user.info.repley', { status: 'success', data: data} );
+                    socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
 				}
 			} else {
-				socket.emit('user.info.repley', {status: 'success', data: '用户不存在'});
+				socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
 			}
 		});
 	} else {
 		userModel.getByQuery({'ip': socket.ip}, function(err, data){
 			if(!err) {
-				socket.emit('user.info.repley', { status: 'success', data: data });
+                if(data.length != 0) {
+                    socket.emit('user.info.repley', { status: 'success', data: data[0]} );
+                } else {
+                    socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
+                }
 			} else {
-				socket.emit('user.info.repley', { status: 'success', data: '用户不存在' });
+				socket.emit('user.info.repley', { status: 'error', data: '用户不存在' });
 			}
 		});
 	}
@@ -167,10 +171,11 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
             socket.emit('system.info', { 'msg' : err});
         } else {
             // 完成之后的处理
-            var link = [];
-            link.push(userInfo);
-            link.push(notRecivePeo[rdmIdx]);
-            socket.emit('user.lottery.new', link);
+            //var link = [];
+            //link.push(userInfo);
+            //link.push(notRecivePeo[rdmIdx]);
+            userInfo.sendPeo = notRecivePeo[rdmIdx];
+            socket.emit('user.lottery.reply', {'msg': '礼物送成功啦~', user: userInfo});
 
             // 删除未收到礼物的缓存
             notRecivePeo.splice(rdmIdx, 1);
@@ -185,7 +190,7 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
             logger.info("当前未收到礼物的还有:" + notRecivePeo.length);
             logger.info("当前未送出礼物的还有:" + notSendPeo.length);
             // 广播
-            socket.broadcast.emit('user.lottery.new', link);
+            socket.broadcast.emit('user.lottery.new', userInfo);
         }
 	});
 }

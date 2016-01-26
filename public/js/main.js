@@ -6,13 +6,17 @@ require.config({
 		'uiBootstrap': "../libs/angular-bootstrap/ui-bootstrap-tpls",
 		'angularAnimate': "../libs/angular-animate/angular-animate",
 		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
+		'angularStorage': "../libs/angular-local-storage/dist/angular-local-storage",
 		'domReady': "../libs/requirejs-domready/domReady",
 		'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all",
 		'socket.io': "../libs/socket.io-client/socket.io",
-		'btford.socket-io': '../libs/angular-socket-io/socket'
+		'btford.socket-io': '../libs/angular-socket-io/socket',
+		'jquery': "../libs/jquery/dist/jquery",
+		'snow': "../plug/snow/snow"
 	},
 	shim: {
 		'angular': {
+			'deps': ['jquery'],
 			'exports': 'angular'
 		},
 		'btford.socket-io': {
@@ -31,6 +35,9 @@ require.config({
 			deps: ['angular']
 		},
 		'angularToastr': {
+			deps: ['angular']
+		},
+		'angularStorage': {
 			deps: ['angular']
 		}
 	},
