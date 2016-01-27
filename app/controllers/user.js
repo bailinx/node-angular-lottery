@@ -1,11 +1,11 @@
 'use strict';
 var userController = {},
-	userModel = require('../models/user'),
+	userModel = require('../models/mapping').user,
 	config = require('../config/config'),
 	logger = require('../utils/log').logger;
 
 userController.list = function (req, res, next) {
-	userModel.getAll(function (err, data) {
+	userModel.find({}, function (err, data) {
 		res.json(data);
 	});
 }
@@ -30,7 +30,7 @@ userController.create = function (req, res, next) {
 		workNo: req.body.user.workNo,
 		name: req.body.user.name,
 		picPath: "upload/" + newFileName,
-		ip: req.body.user.ip,
+		//ip: req.body.user.ip,
 		phone: req.body.user.phone,
 		hasSend: 0
 	}, function (err, data) {
@@ -44,8 +44,8 @@ userController.create = function (req, res, next) {
 };
 
 userController.delete = function (req, res, next) {
-	logger.warn(req.connection.remoteAddress + '/delete/' + req.params.id);
-	userModel.delete({ _id: req.params.id }, function (err) {
+	logger.warn(req.connection.remoteAddress + '/delete/' + req.params.workNo);
+	userModel.remove({ workNo: req.params.workNo }, function (err) {
 		if(!err) {
 			res.send('success');
 		} else {

@@ -8,6 +8,6 @@ router.get('/lottery', userController.lottery);
 
 router.post('/create', userController.create);
 
-router.delete('/delete/:id', userController.delete);
+router.delete('/delete/:workNo', userController.delete);
 
 module.exports = router;

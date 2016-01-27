@@ -44,9 +44,9 @@ define(['./module'], function (controllers) {
 				}
 			});
 
-			$scope.userDel = function (id) {
+			$scope.userDel = function (workNo) {
 				angular.forEach($scope.userCache, function (user, idx) {
-					if(user._id == id) {
+					if(user.workNo == workNo) {
 						userService.delete(user, function (err, data) {
 							if (!err) {
 								if('success' != data) {

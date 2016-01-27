@@ -16,7 +16,6 @@ Sockets.init = function (server) {
     Namespaces.user.getNotRecivePeo();
 
     io.listen(server);
-    logger.info(Namespaces);
     Sockets.server = io;
 };
 

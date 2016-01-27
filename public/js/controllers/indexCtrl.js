@@ -60,6 +60,10 @@ define(['./module'], function (controllers) {
 				} else {
 					$scope.open('sm');
 					notify.warn(result.data);
+					if(localStorageService.isSupported) {
+						localStorageService.remove('UserInfo');
+					}
+					$scope.userInfo = {};
 				}
 			});
 
@@ -84,7 +88,7 @@ define(['./module'], function (controllers) {
             });
 
 			// 送礼物消息
-			socket.on('user.lottery.repley', function (data) {
+			socket.on('user.lottery.reply', function (data) {
 				//notify.success("1111抽奖信息" + reult.user.name + " -> " + reult.user.sendPeo.name);
 				notify.warn(data.msg);
 
@@ -113,11 +117,11 @@ define(['./module'], function (controllers) {
 			// 事件绑定
 			$(".red-packet").click(function(){
 				$(this).addClass("shake");
+				$scope.lottery($scope.userInfo._id);
 				setTimeout(function(){
 					$(".red-packet").removeClass("shake");
 					$(".windows").fadeIn();
 					$(".mask").fadeIn();
-					$scope.lottery($scope.userInfo._id);
 				},2000);
 			});
 			$(".close").click(function(){$(this).parent().fadeOut();$(".mask").fadeOut()});

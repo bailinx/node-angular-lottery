@@ -22,7 +22,7 @@ define(['./module'], function (services) {
                         })
                 },
 	            delete: function (user, callback) {
-		            $http.delete('/user/delete/' + user._id)
+		            $http.delete('/user/delete/' + user.workNo)
 			            .success(function (data, status) {
 				            callback(null, data);
 			            })
