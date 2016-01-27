@@ -31,32 +31,17 @@ SocketUser.hasSendList = function (socket) {
 
 // 用户信息
 SocketUser.userInfo = function (socket, workNo) {
-	if(workNo) {
-		userModel.getByQuery({'workNo': workNo}, function(err, data){
-			if(!err) {
-				if(data.length != 0) {
-					socket.emit('user.info.repley', { status: 'success', data: data[0]} );
-				} else {
-                    socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
-				}
-			} else {
-				socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
-			}
-		});
-	} else {
-		userModel.getByQuery({'ip': socket.ip}, function(err, data){
-			if(!err) {
-                if(data.length != 0) {
-                    socket.emit('user.info.repley', { status: 'success', data: data[0]} );
-                } else {
-                    socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
-                }
-			} else {
-				socket.emit('user.info.repley', { status: 'error', data: '用户不存在' });
-			}
-		});
-	}
-
+    userModel.getByQuery({'workNo': workNo}, function(err, data){
+        if(!err) {
+            if(data.length != 0) {
+                socket.emit('user.info.repley', { status: 'success', data: data[0]} );
+            } else {
+                socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
+            }
+        } else {
+            socket.emit('user.info.repley', {status: 'error', data: '用户不存在'});
+        }
+    });
 }
 
 SocketUser.lottery = function (socket, id) {

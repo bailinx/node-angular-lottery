@@ -17,8 +17,10 @@ userController.get = function (req, res, next) {
 userController.create = function (req, res, next) {
 	var fs = require("fs"),
 		file = req.files.file,
+		timestamp = Math.round(new Date().getTime()/1000),
+        newFileName = timestamp + "." + file.name.split('.')[file.name.split('.').length - 1],
 		temp_path = file.path,
-		new_path = config.uplpadDir + file.name;
+		new_path = config.uplpadDir + newFileName;
 	fs.rename(temp_path, new_path, function(err) {
 		if(err) {
 			logger.error(err);
@@ -27,7 +29,7 @@ userController.create = function (req, res, next) {
 	userModel.create({
 		workNo: req.body.user.workNo,
 		name: req.body.user.name,
-		picPath: new_path,
+		picPath: "upload/" + newFileName,
 		ip: req.body.user.ip,
 		phone: req.body.user.phone,
 		hasSend: 0

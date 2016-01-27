@@ -1,5 +1,6 @@
 # Logs
-logs
+logs/*.log
+
 *.log
 npm-debug.log*
 
@@ -35,3 +36,6 @@ node_modules
 
 # WebStorm
 .idea
+
+# upload
+public/upload/*
