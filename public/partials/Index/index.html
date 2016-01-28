@@ -16,19 +16,26 @@
   </div>
 </div>
 <div class="index-header">
-    <div class="heaer-hb">
-        <div class="mask" style="display: none;">
-            <div class="windows">
-                <div class="text">
-                    <span class="title">好运之人就是TA！</span>
-                    <img ng-src="{{userInfo.sendPeo.picPath}}" width="250px" height="220px"/>
-                </div>
-                <div class="close"><img src="images/close.png"/></div>
+
+    <div class="mask" style="display: none;">
+        <div class="windows">
+            <div class="text">
+                <span class="title">好运之人就是TA！</span>
+                <img ng-src="{{userInfo.sendPeo.picPath}}" width="250px" height="220px"/>
             </div>
+            <div class="close"><img src="images/close.png"/></div>
         </div>
+    </div>
+    <div class="header-hb" ng-show="userInfo.workNo">
         <div class="red-packet">
             <img class="headpic" ng-src="{{userInfo.picPath}}">
             <img src="images/hb.png">
+        </div>
+        <div class="gift-list">
+            <header>礼物 送! 送! 送!</header>
+            <ol class="rounded-list">
+                <li ng-repeat="item in hasSendList"><a href="javascript:;">{{item.name}}的有猿人是{{item.sendPeo.name}}</a></li>
+            </ol>
         </div>
     </div>
     <!--你好，{{userInfo.name}},{{userInfo.sendPeo.picPath}},{{userInfo}}-->

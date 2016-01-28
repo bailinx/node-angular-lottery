@@ -134,18 +134,7 @@ body {
     transform: rotate(2deg) translate3d(0,0,0)
   }
 }
-.mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  background:rgba(0,0,0,0.8);
-  background:#000\9;
-  filter:Alpha(opacity=80);
-  filter: alpha(opacity=80);
-}
+
 .red-packet{
   width: 300px;
   height: 345px;
@@ -177,6 +166,80 @@ body {
 .red-packet.shake{
   animation:shake .2s infinite linear;
   -webkit-animation:shake .2s infinite linear;
+}
+
+ol {
+  counter-reset: li; /* 创建一个计数器 */
+  list-style: none; /* 清除列表默认的编码*/
+  *list-style: decimal; /* 让IE6/7具有默认的编码 */
+  font: 15px 'trebuchet MS', 'lucida sans';
+  padding: 0;
+  margin-bottom: 4em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.gift-list {
+  width: 260px;
+  height: 290px;
+  overflow-y: auto;
+
+  border: 1px #A9A9A9 solid;
+  height: 345px;
+  //padding: 10px;
+  margin-top: -172px;
+  z-index: 1;
+  position: fixed;
+  top: 45%;
+  left: 60%;
+  -moz-box-shadow: 1px 1px 20px #666;
+  -webkit-box-shadow: 1px 1px 20px #666;
+  box-shadow: 1px 1px 20px #666;
+
+  header {
+    padding: 10px;
+    border-bottom: 2px #E1EEFA solid;
+    color: #FFF;
+    font-family: "Microsoft YaHei";
+    text-align: center;
+    text-shadow: 2px 2px 2px #000, 0px 0px 10px #fff, 0px 0px 20px #fff;
+  }
+}
+.rounded-list {
+  padding: 10px;
+  animation: all 1.5s infinite ease-in-out;
+  a {
+    position: relative;
+    display: block;
+    padding: 0.4em 0.4em 0.4em 2em;
+    *padding: 0.4em;/*for ie6/7*/
+    margin: 0.5em 0;
+    background: rgba(0, 0, 0, .075);
+    color: #444;
+    text-decoration: none;
+    border-radius: 0.3em;
+    -moz-transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    &:hover {
+      background: #eee;
+    }
+  }
+}
+
+/* 遮罩层 */
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background:rgba(0,0,0,0.8);
+  background:#000\9;
+  filter:Alpha(opacity=80);
+  filter: alpha(opacity=80);
 }
 .windows{
   width: 350px;

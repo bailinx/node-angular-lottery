@@ -58,12 +58,12 @@ define(['./module'], function (controllers) {
 						localStorageService.set('UserInfo', $scope.userInfo);
 					}
 				} else {
-					$scope.open('sm');
 					notify.warn(result.data);
 					if(localStorageService.isSupported) {
 						localStorageService.remove('UserInfo');
 					}
 					$scope.userInfo = {};
+					$scope.open('sm');
 				}
 			});
 
@@ -74,7 +74,13 @@ define(['./module'], function (controllers) {
 
 			// 最新抽奖信息
 			socket.on('user.lottery.new', function (user) {
-				notify.success("抽奖信息" + user.name + " -> " + user.sendPeo.name);
+
+				var lotteryItem = $("<li><a href='javascript:;'>" + user.name + "的有猿人是" + user.sendPeo.name +"</a></li>");
+				//$(".gift-list").appendTo(user.name + " -> " + user.sendPeo.name);
+				lotteryItem.appendTo($(".rounded-list"));
+				lotteryItem.fadeIn(1000);
+
+				notify.success(user.name + "的有猿人是" + user.sendPeo.name);
 			});
 			// 所有用户
 			socket.emit('user.getAll');
@@ -84,13 +90,14 @@ define(['./module'], function (controllers) {
             // 已送礼物列表
 			socket.emit('user.hasSendList');
             socket.on('user.hasSendList.repley', function (data) {
-                console.log(data);
+	            $scope.hasSendList = data;
+	            //console.log(data);
             });
 
 			// 送礼物消息
 			socket.on('user.lottery.reply', function (data) {
 				//notify.success("1111抽奖信息" + reult.user.name + " -> " + reult.user.sendPeo.name);
-				notify.warn(data.msg);
+				notify.info(data.msg);
 
 				$scope.userInfo = data.user;
 				// 将用户信息保存到本地
