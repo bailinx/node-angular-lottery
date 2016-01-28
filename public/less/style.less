@@ -82,9 +82,54 @@ body {
 }
 
 .header {
-
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  padding: 0 200px;
+  .logo {
+    background-image: url('../images/logo.png');
+    width: 280px;
+    height: 70px;
+    position: relative;
+    top: 20px;
+    float: left;
+  }
+  .menu{
+    position: relative;
+    top: 20px;
+    ul {
+      padding: 0;
+      list-style: none;
+      float: right;
+      li {
+        display: inline-block;
+        margin-left: 1px;
+        a {
+          padding: 12px 20px;
+          display: inline-block;
+          color: white;
+          font-size: 16px;
+          //background: #ba0000;
+          text-transform: uppercase;
+          text-decoration: none;
+        }
+        .active {
+          color: #fff961;
+        }
+      }
+    }
+  }
 }
-
+.menu-item {
+  font-size: 16px;
+  .glyphicon {
+    display: block;
+    font-size: 22px;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+}
 .cropArea {
   padding: 15px;
   border: 2px #f1f1f1 dashed;
@@ -238,7 +283,6 @@ ol {
   z-index: 1000;
   background:rgba(0,0,0,0.8);
   background:#000\9;
-  filter:Alpha(opacity=80);
   filter: alpha(opacity=80);
 }
 .windows{

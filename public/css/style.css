@@ -75,6 +75,54 @@ body {
     background: #9b59b6;
   }
 }
+.header {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  padding: 0 200px;
+}
+.header .logo {
+  background-image: url('../images/logo.png');
+  width: 280px;
+  height: 70px;
+  position: relative;
+  top: 20px;
+  float: left;
+}
+.header .menu {
+  position: relative;
+  top: 20px;
+}
+.header .menu ul {
+  padding: 0;
+  list-style: none;
+  float: right;
+}
+.header .menu ul li {
+  display: inline-block;
+  margin-left: 1px;
+}
+.header .menu ul li a {
+  padding: 12px 20px;
+  display: inline-block;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.header .menu ul li .active {
+  color: #fff961;
+}
+.menu-item {
+  font-size: 16px;
+}
+.menu-item .glyphicon {
+  display: block;
+  font-size: 22px;
+  text-align: center;
+  padding-bottom: 10px;
+}
 .cropArea {
   padding: 15px;
   border: 2px #f1f1f1 dashed;

@@ -27,6 +27,7 @@
     "angular-bootstrap": "~1.1.0",
     "socket.io-client": "~1.4.4",
     "angular-socket-io": "~0.7.0",
-    "angular-local-storage": "~0.2.3"
+    "angular-local-storage": "~0.2.3",
+    "bootstrap": "~3.3.6"
   }
 }
