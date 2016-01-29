@@ -22,8 +22,8 @@ SocketUser.getAll = function (socket) {
 SocketUser.hasSendList = function (socket) {
     userModel.find({'sendPeo': {$exists:true}}, function(err, data){
         if(!err) {
-            //socket.emit('user.hasSendList.repley', data);
-            socket.emit('user.hasSendList.repley', getRandomArrayItems(data, 7));
+            socket.emit('user.hasSendList.repley', data);
+            //socket.emit('user.hasSendList.repley', getRandomArrayItems(data, 7));
         } else {
             socket.emit('system.error', {'msg': '赠送列表获取失败'});
         }
@@ -145,7 +145,7 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
                     socket.broadcast.emit('user.lottery.new', userInfo);
                 } else {
                     // 取消送出的礼物
-                    logger.info("回滚：" + result.name + " -> " + resultRecive.name + "的礼物");
+                    logger.info("回滚：" + result.name + "的礼物");
                     userModel.update({_id: userInfo._id}, {"$unset": {"sendPeo": 1}}, {}, function (error) {
                         socket.emit('system.info', { 'msg' : "姿势不对？再来一次吧~"});
                     });
@@ -168,7 +168,7 @@ SocketUser.getNotSendPeo = function(callback) {
             // 未送出礼物列表
             notSendPeo = list;
             logger.info("初始化未送出礼物的人:" + list.length);
-            logger.info(list);
+            //logger.info(list);
             if(callback) callback(null, list);
         } else {
             if(callback) callback(err, null);
@@ -194,7 +194,7 @@ SocketUser.getNotRecivePeo = function(callback) {
             // 未送出礼物列表
             notRecivePeo = list;
             logger.info("初始化未收到礼物的人:" + list.length);
-            logger.info(list);
+            //logger.info(list);
 
             if(callback) callback(null, list);
         } else {

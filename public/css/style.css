@@ -44,6 +44,12 @@ body {
   background: #9b59b6;
   position: absolute;
   animation: preloader 1.5s infinite ease-in-out;
+  -moz-animation: preloader 1.5s infinite ease-in-out;
+  /* Firefox */
+  -webkit-animation: preloader 1.5s infinite ease-in-out;
+  /* Safari 和 Chrome */
+  -o-animation: preloader 1.5s infinite ease-in-out;
+  /* Opera */
 }
 #preloader span:nth-child(2) {
   left: 11px;
@@ -216,9 +222,9 @@ ol {
 }
 .gift-list {
   width: 260px;
-  overflow: hidden;
+  overflow-y: auto;
   border: 1px #A9A9A9 solid;
-  height: 355px;
+  height: 345px;
   margin-top: -172px;
   z-index: 1;
   position: fixed;
@@ -281,14 +287,13 @@ ol {
   left: 50%;
   margin-left: -175px;
   border-radius: 15px;
-  background: #c7c7c7;
   display: none;
   z-index: 11;
+  background: rgba(199, 199, 199, 0.8);
 }
 .text {
   text-align: center;
   font-size: 18px;
-  font-family: "微软雅黑";
   vertical-align: middle;
   padding: 10px 0;
 }
@@ -348,11 +353,13 @@ ol {
   -webkit-transform: rotate(-10deg);
   -moz-transform: rotate(-10deg);
   transform: rotate(-10deg);
+  z-index: 4;
 }
 .about-header .pic-two {
   position: absolute;
   top: 180px;
   left: 450px;
+  z-index: 3;
 }
 .about-header .pic-three {
   position: absolute;
@@ -361,10 +368,10 @@ ol {
   -webkit-transform: rotate(10deg);
   -moz-transform: rotate(10deg);
   transform: rotate(10deg);
+  z-index: 2;
 }
 .about-pic {
   display: block;
-  width: 278px;
   padding: 10px 10px 15px;
   text-align: center;
   background: white;
@@ -376,8 +383,7 @@ ol {
 }
 .about-pic img {
   display: block;
-  width: 256px;
-  height: 192px;
+  width: 230px;
   margin-bottom: 10px;
   border: 0;
 }
@@ -392,4 +398,10 @@ ol {
   -moz-transform: rotate(0deg) scale(1.05);
   transform: rotate(0deg) scale(1.05);
   z-index: 999;
+}
+/* 媒体查询 */
+@media (max-width: 920px) {
+  .menu {
+    display: none;
+  }
 }
