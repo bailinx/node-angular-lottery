@@ -75,18 +75,15 @@ define(['./module'], function (controllers) {
 			// 最新抽奖信息
 			socket.on('user.lottery.new', function (user) {
 
-				var lotteryItem = $("<li><a href='javascript:;'>" + user.name + "的有猿人是" + user.sendPeo.name +"</a></li>");
 				//$(".gift-list").appendTo(user.name + " -> " + user.sendPeo.name);
-				lotteryItem.appendTo($(".rounded-list"));
-				lotteryItem.fadeIn(1000);
+				//var lotteryItem = $("<li><a href='javascript:;'>" + user.name + "的有猿人是" + user.sendPeo.name +"</a></li>");
+				//lotteryItem.appendTo($(".rounded-list"));
+				//lotteryItem.fadeIn(1000);
+				socket.emit('user.hasSendList');
 
 				notify.success(user.name + "的有猿人是" + user.sendPeo.name);
 			});
-			// 所有用户
-			socket.emit('user.getAll');
-			socket.on('user.getAll.repley', function (data) {
-				console.log(data);
-			});
+
             // 已送礼物列表
 			socket.emit('user.hasSendList');
             socket.on('user.hasSendList.repley', function (data) {

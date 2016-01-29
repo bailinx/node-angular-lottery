@@ -12,12 +12,24 @@ body {
   height: 100%;
   background-color: #C4DDF5;
 }
+
+.index-bg-about {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #99CCFF;
+}
+
 .index-decorate {
   z-index: 1;
 }
+
 .index-header {
   position: relative;
 }
+
 .load-wrapper {
   width: 54px;
   height: 25px;
@@ -95,7 +107,7 @@ body {
     top: 20px;
     float: left;
   }
-  .menu{
+  .menu {
     position: relative;
     top: 20px;
     ul {
@@ -121,6 +133,7 @@ body {
     }
   }
 }
+
 .menu-item {
   font-size: 16px;
   .glyphicon {
@@ -130,6 +143,7 @@ body {
     padding-bottom: 10px;
   }
 }
+
 .cropArea {
   padding: 15px;
   border: 2px #f1f1f1 dashed;
@@ -140,53 +154,53 @@ body {
 /* Common */
 @-webkit-keyframes shake {
   0% {
-    -webkit-transform: rotate(2deg) translate3d(0,0,0)
+    -webkit-transform: rotate(2deg) translate3d(0, 0, 0)
   }
 
   50% {
-    -webkit-transform: rotate(-2deg) translate3d(0,0,0)
+    -webkit-transform: rotate(-2deg) translate3d(0, 0, 0)
   }
 
   100% {
-    -webkit-transform: rotate(2deg) translate3d(0,0,0)
+    -webkit-transform: rotate(2deg) translate3d(0, 0, 0)
   }
 }
 
 @-moz-keyframes shake {
   0% {
-    transform: rotate(2deg) translate3d(0,0,0)
+    transform: rotate(2deg) translate3d(0, 0, 0)
   }
 
   50% {
-    transform: rotate(-2deg) translate3d(0,0,0)
+    transform: rotate(-2deg) translate3d(0, 0, 0)
   }
 
   100% {
-    transform: rotate(2deg) translate3d(0,0,0)
+    transform: rotate(2deg) translate3d(0, 0, 0)
   }
 }
 
 @-ms-keyframes shake {
   0% {
-    transform: rotate(2deg) translate3d(0,0,0)
+    transform: rotate(2deg) translate3d(0, 0, 0)
   }
 
   50% {
-    transform: rotate(-2deg) translate3d(0,0,0)
+    transform: rotate(-2deg) translate3d(0, 0, 0)
   }
 
   100% {
-    transform: rotate(2deg) translate3d(0,0,0)
+    transform: rotate(2deg) translate3d(0, 0, 0)
   }
 }
 
-.red-packet{
+.red-packet {
   width: 300px;
   height: 345px;
   border-radius: 15px;
   box-shadow: 1px 1px 20px #666;
   position: fixed;
-  top:45%;
+  top: 45%;
   left: 35%;
   overflow: hidden;
   margin-left: -150px;
@@ -195,22 +209,22 @@ body {
   -webkit-transform-origin: 50% 100%;
   z-index: 1;
   cursor: pointer;
-  img{
-    width:100%;
+  img {
+    width: 100%;
     height: auto;
   }
   .headpic {
     position: absolute;
-    top: 44px;
-    left: 112px;
-    width: 80px;
-    height: 80px;
-    border: solid 1px red;
+    top: 43px;
+    left: 111px;
+    width: 81px;
+    height: 81px;
   }
 }
-.red-packet.shake{
-  animation:shake .2s infinite linear;
-  -webkit-animation:shake .2s infinite linear;
+
+.red-packet.shake {
+  animation: shake .2s infinite linear;
+  -webkit-animation: shake .2s infinite linear;
 }
 
 ol {
@@ -220,16 +234,16 @@ ol {
   font: 15px 'trebuchet MS', 'lucida sans';
   padding: 0;
   margin-bottom: 4em;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
 }
 
 .gift-list {
   width: 260px;
-  height: 290px;
-  overflow-y: auto;
+  //overflow-y: auto;
+  overflow: hidden;
 
   border: 1px #A9A9A9 solid;
-  height: 345px;
+  height: 355px;
   //padding: 10px;
   margin-top: -172px;
   z-index: 1;
@@ -249,6 +263,7 @@ ol {
     text-shadow: 2px 2px 2px #000, 0px 0px 10px #fff, 0px 0px 20px #fff;
   }
 }
+
 .rounded-list {
   padding: 10px;
   animation: all 1.5s infinite ease-in-out;
@@ -256,7 +271,7 @@ ol {
     position: relative;
     display: block;
     padding: 0.4em 0.4em 0.4em 2em;
-    *padding: 0.4em;/*for ie6/7*/
+    *padding: 0.4em; /*for ie6/7*/
     margin: 0.5em 0;
     background: rgba(0, 0, 0, .075);
     color: #444;
@@ -281,11 +296,12 @@ ol {
   width: 100%;
   height: 100%;
   z-index: 1000;
-  background:rgba(0,0,0,0.8);
-  background:#000\9;
+  background: rgba(0, 0, 0, 0.8);
+  background: #000 \9;
   filter: alpha(opacity=80);
 }
-.windows{
+
+.windows {
   width: 350px;
   height: 300px;
   position: absolute;
@@ -298,18 +314,20 @@ ol {
   display: none;
   z-index: 11;
 }
-.text{
+
+.text {
   text-align: center;
   font-size: 18px;
   font-family: "微软雅黑";
-  vertical-align:middle;
-  padding:10px 0;
+  vertical-align: middle;
+  padding: 10px 0;
   .title {
     display: inline-block;
     padding: 10px 0;
   }
 }
-.close{
+
+.close {
   width: 30px;
   height: 30px;
   position: absolute;
@@ -319,20 +337,22 @@ ol {
   border-radius: 50%;
   cursor: pointer;
   text-align: center;
-  transition:all 0.5s linear;
-  -webkit-transition:all 0.5s linear;
-  -moz-transition:all 0.5s linear;
-  -ms-transition:all 0.5s linear;
-  -o-transition:all 0.5s linear;
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
 }
-.close:hover{
-  transform:rotate(180deg);
-  -webkit-transform:rotate(180deg);
-  -moz-transform:rotate(180deg);
-  -ms-transform:rotate(180deg);
-  -o-transform:rotate(180deg);
+
+.close:hover {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
-.close img{
+
+.close img {
   padding-top: 5px;
 
 }
@@ -347,4 +367,65 @@ ol {
   pointer-events: none;
   z-index: 100001;
   background-size: cover;
+}
+
+/* about */
+.about-header {
+  position: relative;
+  z-index: 1;
+  a {
+    text-decoration: none;
+  }
+  .pic-one {
+    position: absolute;
+    top:200px;
+    left:250px;
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
+  .pic-two {
+    position: absolute;
+    top:180px;
+    left:450px;
+  }
+  .pic-three {
+    position: absolute;
+    top:200px;
+    left:650px;
+    -webkit-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+}
+.about-pic {
+  display: block;
+  width: 278px;
+  padding: 10px 10px 15px;
+  text-align: center;
+  background: white;
+  border: 1px solid #bfbfbf;
+
+  -webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+  -moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+  box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+  -webkit-transition: all 0.5s ease-in;
+  img {
+    display: block;
+    width: 256px;
+    height: 192px;
+    margin-bottom: 10px;
+    border: 0;
+  }
+}
+
+.about-pic:hover, .about-pic:focus, .about-pic:active {
+  border-color: #9a9a9a;
+  -webkit-box-shadow: 15px 15px 20px rgba(50, 50, 50, 0.4);
+  -moz-box-shadow: 15px 15px 20px rgba(50, 50, 50, 0.4);
+  box-shadow: 15px 15px 20px rgba(50, 50, 50, 0.4);
+  -webkit-transform: rotate(0deg) scale(1.05);
+  -moz-transform: rotate(0deg) scale(1.05);
+  transform: rotate(0deg) scale(1.05);
+  z-index: 999;
 }

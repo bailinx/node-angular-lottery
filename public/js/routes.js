@@ -10,10 +10,15 @@ define(['./app'], function (app) {
 			templateUrl: 'partials/Index/index.html',
 			controller: 'IndexCtrl'
 		})
+		.state('sys.about', {
+			url: '/about',
+			templateUrl: 'partials/Index/about.html',
+			controller: 'AboutCtrl'
+		})
 		.state('sys.create', {
 			url: '/userCreate',
 			templateUrl: 'partials/User/create.html',
-      controller: 'UserCtrl'
+      		controller: 'UserCtrl'
 		});
 		$urlRouterProvider.otherwise('/sys/index');
 	});
