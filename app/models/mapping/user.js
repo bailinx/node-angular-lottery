@@ -8,8 +8,6 @@ var schema = new Schema({
 	picPath: String,
 	ip: String,
 	phone: String,
-	hasSend: Number,
-	sendTime: Date,
 	sendPeo: {}, // 他送礼物的人
 	recivePeo: {} // 送他礼物的人
 });
