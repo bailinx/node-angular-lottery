@@ -2,6 +2,9 @@
 
 使用X-MEAN-SEED构建的新年抽奖项目
 
+[node-angular-lottery](https://github.com/radishj/node-angular-lottery)
+![](https://github.com/radishj/node-angular-lottery/blob/master/public/upload/demo.gif?raw=true)
+
 ----------
 
 # Introduction:
