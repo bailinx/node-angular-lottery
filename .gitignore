@@ -38,7 +38,7 @@ node_modules
 .idea
 
 # upload
-public/upload/*
+#public/upload/*
 
 # lib
 public/libs/*
