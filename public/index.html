@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{title}}</title>
+    <title>lottery</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="libs/html5-boilerplate/dist/css/normalize.css">
@@ -15,10 +15,22 @@
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/special.css">
     <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-    {{{body}}}
-    <script src="../libs/socket.io-client/socket.io.js"></script>
-    <script data-main="js/main" src="libs/requirejs/require.js"></script>
-  </body>
+</head>
+<body>
+<div class="container">
+    <div ui-view>
+        <div class="load-wrapper">
+            <div id="preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../libs/socket.io-client/socket.io.js"></script>
+<script data-main="js/main" src="libs/requirejs/require.js"></script>
+</body>
 </html>

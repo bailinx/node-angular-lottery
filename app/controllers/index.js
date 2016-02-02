@@ -2,7 +2,7 @@
 var indexController = {};
 
 indexController.index = function (req, res, next) {
-	res.render('index', {title: 'lottery'});
+	res.send('node-angular-lottery');
 }
 
 module.exports = indexController;
