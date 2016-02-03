@@ -41,5 +41,5 @@ define(['./module'], function (services) {
                 }
             };
         }
-    ])
+    ]);
 });

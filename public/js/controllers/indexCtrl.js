@@ -1,11 +1,13 @@
 define(['./module'], function (controllers) {
 	'use strict';
-	controllers.config(function (localStorageServiceProvider) {
-		localStorageServiceProvider
-			.setPrefix('node-angular-lottery')
-			.setStorageType('sessionStorage')
-			.setNotify(true, true)
-	});
+	controllers.config(['localStorageServiceProvider',
+		function (localStorageServiceProvider) {
+			localStorageServiceProvider
+				.setPrefix('node-angular-lottery')
+				.setStorageType('sessionStorage')
+				.setNotify(true, true);
+		}
+	]);
 	controllers.controller('IndexCtrl', ['$scope', '$uibModal', 'NotifyService', 'SocketService', 'localStorageService',
 		function ($scope, $uibModal, notify, socket, localStorageService) {
             // 初始化
@@ -159,14 +161,16 @@ define(['./module'], function (controllers) {
 		}
 	]);
 	// model controller
-	controllers.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, workNo) {
-        $scope.workNo = workNo;
-		$scope.ok = function () {
-			$uibModalInstance.close($scope.workNo);
-		};
+	controllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'workNo',
+		function ($scope, $uibModalInstance, workNo) {
+			$scope.workNo = workNo;
+			$scope.ok = function () {
+				$uibModalInstance.close($scope.workNo);
+			};
 
-		$scope.cancel = function () {
-			$uibModalInstance.dismiss('cancel');
-		};
-	});
+			$scope.cancel = function () {
+				$uibModalInstance.dismiss('cancel');
+			};
+		}
+	]);
 });
