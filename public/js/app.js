@@ -1,11 +1,11 @@
 define([
 		"angular",
-		'uiRouter',
-		'uiBootstrap',
-		'ngFileUpload',
-		'angularAnimate',
-		'angularToastr',
-		'angularStorage',
+		'angular-ui-router',
+		'ui-bootstrap-tpls',
+		'ng-file-upload-all',
+		'angular-animate',
+		'angular-toastr.tpls',
+		'angular-local-storage',
 		'./controllers/index',
 		'./directives/index',
 		'./filters/index',
@@ -26,7 +26,7 @@ define([
 		]).config(['$httpProvider',
 			function ($httpProvider) {
 				// 在这里构造拦截器
-				var interceptor = function($q) {
+				var interceptor = ['$q', function($q) {
 					return {
 						'response': function(resp) {
 							console.log('get data complete:' + resp, 'ajax');
@@ -42,7 +42,7 @@ define([
 							return $q.reject(rejection);
 						}
 					};
-				};
+				}];
 				$httpProvider.interceptors.push(interceptor);
 			}
 		]);

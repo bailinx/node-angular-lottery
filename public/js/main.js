@@ -2,15 +2,15 @@
 require.config({
 	paths: {
 		'angular': "../libs/angular/angular",
-		'uiRouter': "../libs/angular-ui-router/release/angular-ui-router",
-		'uiBootstrap': "../libs/angular-bootstrap/ui-bootstrap-tpls",
-		'angularAnimate': "../libs/angular-animate/angular-animate",
-		'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
-		'angularStorage': "../libs/angular-local-storage/dist/angular-local-storage",
+		'angular-ui-router': "../libs/angular-ui-router/release/angular-ui-router",
+		'ui-bootstrap-tpls': "../libs/angular-bootstrap/ui-bootstrap-tpls",
+		'angular-animate': "../libs/angular-animate/angular-animate",
+		'angular-toastr.tpls': "../libs/angular-toastr/dist/angular-toastr.tpls",
+		'angular-local-storage': "../libs/angular-local-storage/dist/angular-local-storage",
 		'domReady': "../libs/requirejs-domready/domReady",
-		'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all",
+		'ng-file-upload-all': "../libs/ng-file-upload/ng-file-upload-all",
 		'socket.io': "../libs/socket.io-client/socket.io",
-		'btford.socket-io': '../libs/angular-socket-io/socket',
+		'socket': '../libs/angular-socket-io/socket',
 		'jquery': "../libs/jquery/dist/jquery",
 		'snow': "../plug/snow/snow"
 	},
@@ -19,25 +19,22 @@ require.config({
 			'deps': ['jquery'],
 			'exports': 'angular'
 		},
-		'btford.socket-io': {
-			'deps': ['angular', 'socket.io']
-		},
-		'uiRouter': {
+		'angular-ui-router': {
 			deps: ['angular']
 		},
-		'uiBootstrap': {
+		'ui-bootstrap-tpls': {
 			deps: ['angular']
 		},
-		'ngFileUpload': {
+		'ng-file-upload-all': {
 			deps: ['angular']
 		},
-		'angularAnimate': {
+		'angular-animate': {
 			deps: ['angular']
 		},
-		'angularToastr': {
+		'angular-toastr.tpls': {
 			deps: ['angular']
 		},
-		'angularStorage': {
+		'angular-local-storage': {
 			deps: ['angular']
 		}
 	},

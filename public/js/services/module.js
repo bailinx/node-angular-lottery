@@ -1,4 +1,4 @@
-define(['angular', 'btford.socket-io'], function (ng) {
+define(['angular', 'socket'], function (ng, socket) {
 	'use strict';
 	return ng.module('app.services', ['btford.socket-io']);
 });

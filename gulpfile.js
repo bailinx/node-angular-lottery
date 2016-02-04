@@ -5,7 +5,11 @@ var gulp           = require('gulp'),
     rename         = require('gulp-rename'),
     // 为服务器特别定制的，快速、灵活、实施精益(lean implementation)的jQuery核心
     cheerio        = require('gulp-cheerio'),
-    rjs            = require('gulp-requirejs');
+    uplify         = require('gulp-uglify'),
+    concat         = require('gulp-concat'),
+    amdOptimize    = require('amd-optimize'),
+    ngAnnotate     = require('gulp-ng-annotate');
+    //rjs            = require('gulp-requirejs');
 
 var path = {
     public   : "public/",
@@ -35,64 +39,125 @@ gulp.task('replace', function() {
                 .pipe(gulp.dest(path.dist));
 });
 
+//gulp.task('scripts', function() {
+//    rjs({
+//        //appDir: './public/js',
+//        baseUrl: "./public/js",
+//        removeCombined: true,
+//        // 不能直接混淆，ng会注入失败
+//        optimize: "none",
+//        paths: {
+//            'domReady': "public/libs/requirejs-domready/domReady",
+//            'angular': "public/libs/angular/angular",
+//            'uiRouter': "public/libs/angular-ui-router/release/angular-ui-router",
+//            'uiBootstrap': "public/libs/angular-bootstrap/ui-bootstrap-tpls",
+//            'angularAnimate': "public/libs/angular-animate/angular-animate",
+//            'angularToastr': "public/libs/angular-toastr/dist/angular-toastr.tpls",
+//            'angularStorage': "public/libs/angular-local-storage/dist/angular-local-storage",
+//            'ngFileUpload': "public/libs/ng-file-upload/ng-file-upload-all",
+//            'socket.io': "public/libs/socket.io-client/socket.io",
+//            'btford.socket-io': 'public/libs/angular-socket-io/socket',
+//            'jquery': "public/libs/jquery/dist/jquery",
+//            'snow': "../plug/snow/snow"
+//        },
+//        shim: {
+//            'angular': {
+//                'deps': ['jquery'],
+//                'exports': 'angular'
+//            },
+//            'btford.socket-io': {
+//                'deps': ['angular', 'socket.io']
+//            },
+//            'uiRouter': {
+//                deps: ['angular']
+//            },
+//            'uiBootstrap': {
+//                deps: ['angular']
+//            },
+//            'ngFileUpload': {
+//                deps: ['angular']
+//            },
+//            'angularAnimate': {
+//                deps: ['angular']
+//            },
+//            'angularToastr': {
+//                deps: ['angular']
+//            },
+//            'angularStorage': {
+//                deps: ['angular']
+//            }
+//        },
+//        modules: [{
+//            name: "main",
+//            include: [ './routes', './app', './bootstrap' ],
+//            exclude: [ 'angular', 'uiRouter', 'uiBootstrap', 'angularAnimate', 'angularToastr',
+//                'angularStorage', 'domReady', 'ngFileUpload', 'socket.io', 'btford.socket-io',
+//                'jquery', 'snow'
+//            ]
+//
+//        }],
+//        name: "bootstrap",
+//        //out: "build.js"
+//        dir: "./public/build"
+//    }, function(buildResponse){
+//        console.log('build response', buildResponse);
+//    })
+//    .pipe(gulp.dest(path.dist));
+//        //.pipe(concat("index.js"))
+//        //.pipe(rename("index.min.js"))
+//});
 gulp.task('scripts', function() {
-    rjs({
-        //appDir: './public/js',
-        baseUrl: "./public/js",
-        removeCombined: true,
-        // 不能直接混淆，ng会注入失败
-        optimize: "none",
-        paths: {
-            'domReady': "../libs/requirejs-domready/domReady",
-            'angular': "../libs/angular/angular",
-            'uiRouter': "../libs/angular-ui-router/release/angular-ui-router",
-            'uiBootstrap': "../libs/angular-bootstrap/ui-bootstrap-tpls",
-            'angularAnimate': "../libs/angular-animate/angular-animate",
-            'angularToastr': "../libs/angular-toastr/dist/angular-toastr.tpls",
-            'angularStorage': "../libs/angular-local-storage/dist/angular-local-storage",
-            'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all",
-            'socket.io': "../libs/socket.io-client/socket.io",
-            'btford.socket-io': '../libs/angular-socket-io/socket',
-            'jquery': "../libs/jquery/dist/jquery",
-            'snow': "../plug/snow/snow"
-        },
-        shim: {
-            'angular': {
-                'deps': ['jquery'],
-                'exports': 'angular'
+    gulp.src(['./public/js/**/*.js'])
+        .pipe(amdOptimize("bootstrap", {
+            paths: {
+                'angular': "public/libs/angular/angular",
+                'domReady': "public/libs/requirejs-domready/domReady",
+                'angular-ui-router': "public/libs/angular-ui-router/release/angular-ui-router",
+                'ui-bootstrap-tpls': "public/libs/angular-bootstrap/ui-bootstrap-tpls",
+                'angular-animate': "public/libs/angular-animate/angular-animate",
+                'angular-toastr.tpls': "public/libs/angular-toastr/dist/angular-toastr.tpls",
+                'angular-local-storage': "public/libs/angular-local-storage/dist/angular-local-storage",
+                'ng-file-upload-all': "public/libs/ng-file-upload/ng-file-upload-all",
+                'socket.io': "public/libs/socket.io-client/socket.io",
+                'socket': './public/libs/angular-socket-io/socket',
+                'jquery': "public/libs/jquery/dist/jquery",
+                'snow': "public/plug/snow/snow"
             },
-            'btford.socket-io': {
-                'deps': ['angular', 'socket.io']
-            },
-            'uiRouter': {
-                deps: ['angular']
-            },
-            'uiBootstrap': {
-                deps: ['angular']
-            },
-            'ngFileUpload': {
-                deps: ['angular']
-            },
-            'angularAnimate': {
-                deps: ['angular']
-            },
-            'angularToastr': {
-                deps: ['angular']
-            },
-            'angularStorage': {
-                deps: ['angular']
+            shim: {
+                'angular': {
+                    'deps': ['jquery', 'domReady'],
+                    'exports': 'angular'
+                },
+                'socket': {
+                    'deps': ['angular'],
+                },
+                'angular-ui-router': {
+                    deps: ['angular']
+                },
+                'ui-bootstrap-tpls': {
+                    deps: ['angular']
+                },
+                'ng-file-upload-all': {
+                    deps: ['angular']
+                },
+                'angular-animate': {
+                    deps: ['angular']
+                },
+                'angular-toastr.tpls': {
+                    deps: ['angular']
+                },
+                'angular-local-storage': {
+                    deps: ['angular']
+                }
             }
-        },
-        name: "bootstrap",
-        out: "build.js"
-        //dir: "./public/build"
-    }, function(buildResponse){
-        console.log('build response', buildResponse);
-    })
-    .pipe(gulp.dest(path.dist));
-        //.pipe(concat("index.js"))
-        //.pipe(rename("index.min.js"))
-});
+        }))
+        .pipe(concat("bootstrap.js"))           //合并
+        .pipe(gulp.dest("public/dist"))         //输出保存
+        .pipe(ngAnnotate())                     //隐式依赖自动转换成数组标注方式
+        //.pipe(rename("bootstrap.js"))         //重命名
+        .pipe(uplify())                         //压缩
+        .pipe(gulp.dest("public/dist"));        //输出保存
+})
 // 编译less
 gulp.task('css', function() {
     if(env.production) {
