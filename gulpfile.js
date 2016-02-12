@@ -3,6 +3,7 @@ var gulp           = require('gulp'),
     autoprefixer   = require('gulp-autoprefixer'),
     minifycss      = require('gulp-minify-css'),
     rename         = require('gulp-rename'),
+    rimraf         = require('rimraf'),
     // 为服务器特别定制的，快速、灵活、实施精益(lean implementation)的jQuery核心
     cheerio        = require('gulp-cheerio'),
     uplify         = require('gulp-uglify'),
@@ -16,7 +17,7 @@ var path = {
     css      : "public/css/",
     js       : "public/js/",
     less     : "public/less/",
-    img      : "public/img/",
+    img      : "public/images/",
     dist     : "public/dist/"
 }, env = {
     production: false
@@ -32,11 +33,11 @@ gulp.task('replace', function() {
                 .pipe(cheerio(function($) {
                     $('script').remove();
                     $('link').remove();
-                    $('body').append('<script src="js/index.js"></script>');
-                    $('head').append('<link rel="stylesheet" href="index.min.css?v='+ rand +'">');
+                    $('body').append('<script src="dist/js/bootstrap.js"></script>');
+                    $('head').append('<link rel="stylesheet" href="app.min.css?v='+ rand +'">');
                 }))
-                .pipe(rename('idx.html'))
-                .pipe(gulp.dest(path.dist));
+                //.pipe(rename('idx.html'))
+                .pipe(gulp.dest(path.dist + 'index.html'));
 });
 
 //gulp.task('scripts', function() {
@@ -152,11 +153,11 @@ gulp.task('scripts', function() {
             }
         }))
         .pipe(concat("bootstrap.js"))           //合并
-        .pipe(gulp.dest("public/dist"))         //输出保存
+        .pipe(gulp.dest(path.dist + "js"))      //输出保存
         .pipe(ngAnnotate())                     //隐式依赖自动转换成数组标注方式
         //.pipe(rename("bootstrap.js"))         //重命名
         .pipe(uplify())                         //压缩
-        .pipe(gulp.dest("public/dist"));        //输出保存
+        .pipe(gulp.dest(path.dist + "js"));     //输出保存
 })
 // 编译less
 gulp.task('css', function() {
@@ -176,6 +177,29 @@ gulp.task('css', function() {
     }
 });
 
+// copy
+gulp.task('copy:html', function() {
+    return gulp.src('public/index.html')
+               .pipe(gulp.dest(path.dist));
+});
+
+gulp.task('copy:css', function() {
+    return gulp.src(path.css + "**/*.css")
+               .pipe(concat("app.min.css"))
+               .pipe(minifycss())
+               .pipe(gulp.dest(path.dist + "css"));
+});
+
+gulp.task('copy:img', function() {
+    return gulp.src(path.img+ "**/*")
+               .pipe(gulp.dest(path.dist + "images"));
+});
+
+// clean
+gulp.task('clean:tmp', function(cb) {
+    return rimraf(path.dist, cb);
+});
+
 // 监听
 gulp.task('watch', function() {
     // 其实没必要监听所有
@@ -187,4 +211,4 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['watch']);
 gulp.task('script', ['scripts']);
-gulp.task('build', ['set-production', 'css', 'replace']);
+gulp.task('build', ['set-production', 'clean:tmp', 'scripts', 'copy:html', 'copy:css', 'copy:img', 'replace']);
