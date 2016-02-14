@@ -34,8 +34,11 @@ gulp.task('replace', function() {
                 .pipe(cheerio(function($) {
                     $('script').remove();
                     $('link').remove();
-                    $('body').append('<script src="dist/js/bootstrap.js"></script>');
-                    $('head').append('<link rel="stylesheet" href="app.min.css?v='+ rand +'">');
+                    $('body').append('<script src="js/socket.io.js"></script>');
+                    $('body').append('<script data-main="js/bootstrap" src="js/require.js"></script>');
+                    $('body').append('<script src="js/bootstrap.js"></script>');
+                    $('body').append('<script src="js/snow.js"></script>');
+                    $('head').append('<link rel="stylesheet" href="css/app.min.css?v='+ rand +'">');
                 }))
                 //.pipe(rename('idx.html'))
                 .pipe(gulp.dest(path.dist));
@@ -109,7 +112,7 @@ gulp.task('replace', function() {
 //        //.pipe(rename("index.min.js"))
 //});
 gulp.task('scripts', function() {
-    gulp.src(['./public/js/**/*.js'])
+    gulp.src(['./public/js/**/*.js', './public/plug/**/*.js'])
         .pipe(amdOptimize("bootstrap", {
             paths: {
                 'angular': "public/libs/angular/angular",
@@ -127,7 +130,7 @@ gulp.task('scripts', function() {
             },
             shim: {
                 'angular': {
-                    'deps': ['jquery', 'domReady'],
+                    'deps': ['jquery', 'domReady', 'snow'],
                     'exports': 'angular'
                 },
                 'socket': {
@@ -180,13 +183,23 @@ gulp.task('css', function() {
 
 // copy
 gulp.task('copy:html', function() {
-    return gulp.src('public/index.html')
+    return gulp.src(['public/**/*.html', '!public/libs/**/*.html'])
                .pipe(minifyHtml())
                .pipe(gulp.dest(path.dist));
 });
 
+gulp.task('copy:libs', function() {
+    return gulp.src([
+                        'public/libs/requirejs/require.js',
+                        'public/libs/socket.io-client/socket.io.js',
+                        'public/plug/snow/snow.js'
+                    ])
+               .pipe(uplify())
+               .pipe(gulp.dest(path.dist + "js"));
+});
+
 gulp.task('copy:css', function() {
-    return gulp.src(path.css + "**/*.css")
+    return gulp.src([path.css + "**/*.css", 'public/libs/**/*.css'])
                .pipe(concat("app.min.css"))
                .pipe(minifycss())
                .pipe(gulp.dest(path.dist + "css"));
@@ -213,4 +226,4 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['watch']);
 gulp.task('script', ['scripts']);
-gulp.task('build', gulpSequence('set-production', 'clean', 'scripts', ['copy:html', 'copy:css', 'copy:img'], 'replace'));
+gulp.task('build', gulpSequence('set-production', 'clean', 'scripts', ['copy:html', 'copy:libs', 'copy:css', 'copy:img'], 'replace'));
