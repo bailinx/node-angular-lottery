@@ -1,10 +1,11 @@
 var gulp           = require('gulp'),
+    gulpSequence   = require('gulp-sequence'),
     less           = require('gulp-less'),
     autoprefixer   = require('gulp-autoprefixer'),
     minifycss      = require('gulp-minify-css'),
+    minifyHtml     = require("gulp-minify-html"),
     rename         = require('gulp-rename'),
     rimraf         = require('rimraf'),
-    // 为服务器特别定制的，快速、灵活、实施精益(lean implementation)的jQuery核心
     cheerio        = require('gulp-cheerio'),
     uplify         = require('gulp-uglify'),
     concat         = require('gulp-concat'),
@@ -18,7 +19,7 @@ var path = {
     js       : "public/js/",
     less     : "public/less/",
     img      : "public/images/",
-    dist     : "public/dist/"
+    dist     : "dist/"
 }, env = {
     production: false
 };
@@ -28,7 +29,7 @@ gulp.task('set-production', function() {
 });
 
 gulp.task('replace', function() {
-    var rand = new Date().getSeconds();
+    var rand = new Date().getTime();
     return  gulp.src(path.dist + 'index.html')
                 .pipe(cheerio(function($) {
                     $('script').remove();
@@ -37,7 +38,7 @@ gulp.task('replace', function() {
                     $('head').append('<link rel="stylesheet" href="app.min.css?v='+ rand +'">');
                 }))
                 //.pipe(rename('idx.html'))
-                .pipe(gulp.dest(path.dist + 'index.html'));
+                .pipe(gulp.dest(path.dist));
 });
 
 //gulp.task('scripts', function() {
@@ -180,6 +181,7 @@ gulp.task('css', function() {
 // copy
 gulp.task('copy:html', function() {
     return gulp.src('public/index.html')
+               .pipe(minifyHtml())
                .pipe(gulp.dest(path.dist));
 });
 
@@ -191,12 +193,12 @@ gulp.task('copy:css', function() {
 });
 
 gulp.task('copy:img', function() {
-    return gulp.src(path.img+ "**/*")
+    return gulp.src(path.img+ "**/*.*")
                .pipe(gulp.dest(path.dist + "images"));
 });
 
 // clean
-gulp.task('clean:tmp', function(cb) {
+gulp.task('clean', function(cb) {
     return rimraf(path.dist, cb);
 });
 
@@ -211,4 +213,4 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['watch']);
 gulp.task('script', ['scripts']);
-gulp.task('build', ['set-production', 'clean:tmp', 'scripts', 'copy:html', 'copy:css', 'copy:img', 'replace']);
+gulp.task('build', gulpSequence('set-production', 'clean', 'scripts', ['copy:html', 'copy:css', 'copy:img'], 'replace'));

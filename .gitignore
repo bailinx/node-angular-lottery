@@ -42,3 +42,6 @@ public/upload/*
 
 # lib
 public/libs/*
+
+# dist
+dist
