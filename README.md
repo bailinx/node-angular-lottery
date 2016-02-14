@@ -13,7 +13,7 @@
 - Use mongo database，Only one collection
 - You can change the port information such as website at app/config/config.js
 - CreateUser URL : IP:Port/#/sys/userCreate
-	
+
 # Requirements
 
 node-angular-lottery requires the following software to be installed:
@@ -23,17 +23,30 @@ node-angular-lottery requires the following software to be installed:
 
 # Installation
 
-**start mongodb**
-
-```bash
-mongod --dbpath=dbpath --logpath=logpath
-```
-
 **install dependencies**
 
 ```bash
 $ npm install
 $ bower install
+```
+
+**build project**
+
+```bash
+// clean
+$ gulp clean
+
+// watch
+$ gulp watch
+
+// build project
+$ gulp build
+```
+
+**start mongodb**
+
+```bash
+mongod --dbpath=dbpath --logpath=logpath
 ```
 
 **start project**
