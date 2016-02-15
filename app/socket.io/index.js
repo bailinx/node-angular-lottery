@@ -29,6 +29,7 @@ Sockets.getSocketCount = function() {
 function onConnection(socket)
 {
     socket.ip = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+
     logger.info(socket.ip + ' has been connected.');
 
     socket.on('disconnect', function(data) {
@@ -39,6 +40,7 @@ function onConnection(socket)
     //socket.on('user.notSendList', function(data) {
     //    Namespaces.user.notSendList(socket);
     //});
+
 	// 已经送礼物的用户
     socket.on('user.hasSendList', function(data) {
         Namespaces.user.hasSendList(socket);
@@ -64,40 +66,6 @@ function requireModules() {
     modules.forEach(function(module) {
         Namespaces[module] = require('./' + module);
     })
-}
-function onMessage(socket, payload) {
-    logger.info("-=---------");
-    if(!payload.data.length) {
-        return logger.warn('[socket.io] 消息为空');
-    }
-    var eventName = payload.data[0];
-    var params = payload.data[1];
-    var callback = typeof payload.data[payload.data.length - 1] === 'function' ? payload.data[payload.data.length - 1] : function() {};
-    logger.info("xxxx-" + eventName + params);
-    if (!eventName) {
-        return logger.warn('[socket.io] 方法名为空');
-    }
-
-    var parts = eventName.toString().split('.'),
-        methodToCall = parts.reduce(function(prev, cur) {
-            if (prev !== null && prev[cur]) {
-                return prev[cur];
-            } else {
-                return null;
-            }
-        }, Namespaces);
-
-    if(!methodToCall) {
-        if (config.env === 'development') {
-            logger.warn('[socket.io] Unrecognized message: ' + eventName);
-        }
-        return;
-    }
-
-    methodToCall(socket, params, function(err, data) {
-        callback(err, data);
-    });
-
 }
 
 function onDisconnect(socket, data) {

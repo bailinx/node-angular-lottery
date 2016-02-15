@@ -31,13 +31,6 @@ server.listen(port, function () {
 	logger.info('%s server listening on port %s', config.name, port);
 });
 
-//io.sockets.on('connection', function (socket) {
-//	socket.emit('client-rev', { hello: 'world' });
-//	socket.on('client-send', function (data) {
-//		console.log(data);
-//	});
-//});
-
 server.on('error', onError);
 server.on('listening', onListening);
 

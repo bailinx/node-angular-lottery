@@ -9,8 +9,8 @@ require.config({
 		'angular-local-storage': "../libs/angular-local-storage/dist/angular-local-storage",
 		'domReady': "../libs/requirejs-domready/domReady",
 		'ng-file-upload-all': "../libs/ng-file-upload/ng-file-upload-all",
-		'socket.io': "../libs/socket.io-client/socket.io",
-		'socket': '../libs/angular-socket-io/socket',
+		'socket-io': "../libs/socket.io-client/socket.io",
+        'socket': '../libs/angular-socket-io/socket',
 		'jquery': "../libs/jquery/dist/jquery",
 		'snow': "../plug/snow/snow"
 	},
@@ -34,9 +34,12 @@ require.config({
 		'angular-toastr.tpls': {
 			deps: ['angular']
 		},
-		'angular-local-storage': {
-			deps: ['angular']
-		}
+        'angular-local-storage': {
+            deps: ['angular']
+        },
+        'socket': {
+            deps: ['socket-io', 'angular']
+        }
 	},
 	deps: ['./bootstrap']
 });

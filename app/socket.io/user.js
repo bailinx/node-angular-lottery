@@ -61,8 +61,6 @@ SocketUser.lottery = function (socket, id) {
                         socket.emit('system.info', {'msg': '奖池为空啦，再抽一次试试~'});
 					} else {
                         var rdmIdx = Math.floor(Math.random() * notRecivePeo.length);
-                        // notSendPeo 写错啦，坑
-                        //var rdmIdx = parseInt((Math.random()*notSendPeo.length - 1), 10);
                         logger.info("随机人：" + notRecivePeo[rdmIdx] +",rdmIdx:" + rdmIdx + ", total:" + notRecivePeo.length);
                         if(notRecivePeo[rdmIdx]._id.id == data[0]._id.id) {
                             if(notRecivePeo.length == 1) {
@@ -73,7 +71,8 @@ SocketUser.lottery = function (socket, id) {
                                 } else if(rdmIdx + 1 < notRecivePeo.length) {
                                     rdmIdx = rdmIdx + 1;
                                 } else {
-                                    rdmIdx = Math.floor(Math.random()*notSendPeo.length);
+                                    // notSendPeo.length 总数错了，应该就是这里引起的问题
+                                    rdmIdx = Math.floor(Math.random()*notRecivePeo.length);
                                 }
                                 logger.info("重新抽取：" + notRecivePeo[rdmIdx] +",rdmIdx:" + rdmIdx + ", total:" + notRecivePeo.length);
                                 lotteryHelper(socket, rdmIdx, data[0]);
@@ -108,17 +107,23 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
     , function(err, result){
         logger.info("方法1：" + result);
         if(result) {
+            // 刚送出礼物的人
+            var tempSendPeo;
+            // 删除未送礼物的缓存
+            for(var i = 0; i < notSendPeo.length; i++) {
+                if(notSendPeo[i]._id.id == userInfo._id.id) {
+                    logger.info(userInfo.name +"送出礼物已删除缓存");
+                    tempSendPeo = notSendPeo.splice(i, 1);
+                    break;
+                }
+            }
             userModel.findOneAndUpdate(
                 {_id: notRecivePeo[rdmIdx]._id, 'recivePeo': {$exists:false}},
                 {$set: {recivePeo: userInfo}}
-            , function(err, resultRecive) {
-                logger.info("方法2" + resultRecive);
+            , function(err, resultRecive) {s
                 if(resultRecive) {
                     logger.info(notRecivePeo[rdmIdx].name+ "收到[" + userInfo.name + "]的礼物" );
                     // 完成之后的处理
-                    //var link = [];
-                    //link.push(userInfo);
-                    //link.push(notRecivePeo[rdmIdx]);
                     userInfo.sendPeo = notRecivePeo[rdmIdx];
                     socket.emit('user.lottery.reply', {'msg': '礼物送成功啦~', user: userInfo});
 
@@ -131,14 +136,7 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
                     //        break;
                     //    }
                     //}
-                    // 删除未送礼物的缓存
-                    for(var i = 0; i < notSendPeo.length; i++) {
-                        if(notSendPeo[i]._id.id == userInfo._id.id) {
-                            logger.info(userInfo.name +"送出礼物已删除缓存");
-                            notSendPeo.splice(i, 1);
-                            break;
-                        }
-                    }
+
                     logger.info("当前未收到礼物的还有:" + notRecivePeo.length);
                     logger.info("当前未送出礼物的还有:" + notSendPeo.length);
                     // 广播
@@ -147,6 +145,7 @@ function lotteryHelper(socket, rdmIdx, userInfo) {
                     // 取消送出的礼物
                     logger.info("回滚：" + result.name + "的礼物");
                     userModel.update({_id: userInfo._id}, {"$unset": {"sendPeo": 1}}, {}, function (error) {
+                        notSendPeo.push(tempSendPeo);
                         socket.emit('system.info', { 'msg' : "姿势不对？再来一次吧~"});
                     });
                 }
@@ -185,16 +184,9 @@ SocketUser.getNotRecivePeo = function(callback) {
     // 查询没收到礼物的人
     userModel.find({'recivePeo': {$exists:false}}, function (err, list) {
         if(!err) {
-            // 除去自己
-            //for(var i = 0; i < list.length; i++) {
-            //    if(list[i]._id.id == currentUser._id.id) {
-            //        list.splice(i, 1);
-            //    }
-            //}
             // 未送出礼物列表
             notRecivePeo = list;
             logger.info("初始化未收到礼物的人:" + list.length);
-            //logger.info(list);
 
             if(callback) callback(null, list);
         } else {
@@ -202,6 +194,12 @@ SocketUser.getNotRecivePeo = function(callback) {
         }
     })
 }
+/**
+ * 随机获取数组一项
+ * @param arr
+ * @param num
+ * @returns {Array}
+ */
 function getRandomArrayItems(arr, num) {
     //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
     var temp_array = new Array();
