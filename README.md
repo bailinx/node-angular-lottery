@@ -61,7 +61,7 @@ node www
 - 开发请配置项目环境config.js中`env`:`development`,部署请改为`production`
 - 测试使用`amd-optimize`打包时，会遇到`Error: A module must not have more than one anonymous 'define' calls.`,具体问题请看[Issues#690](https://github.com/socketio/socket.io-client/issues/690),
 我的解决办法是打包按照`JamesHenry`的办法删除那两段代码，就OK，因为这是练习项目，用了三种打包方案（r.js/gulp-requirejs/amd-optimize），
-其他两种未测试是否有这问题.
+其他两种未测试是否有这问题.(后面想了想，删除代码并不好，r.js都是跟require一同发布，应该不会出现这问题，amd-optimize遇到的坑)
 
 # License
 MIT
