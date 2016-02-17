@@ -4148,9 +4148,7 @@ module.exports = function parseuri(str) {
 		typeof define.amd == 'object' &&
 		define.amd
 	) {
-		define(function() {
-			return utf8;
-		});
+
 	}	else if (freeExports && !freeExports.nodeType) {
 		if (freeModule) { // in Node.js or RingoJS v0.8.0+
 			freeModule.exports = utf8;
@@ -7224,12 +7222,7 @@ arguments[4][15][0].apply(exports,arguments)
     };
   }
 
-  // Export for asynchronous module loaders.
-  if (isLoader) {
-    define(function () {
-      return JSON3;
-    });
-  }
+
 }).call(this);
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {})

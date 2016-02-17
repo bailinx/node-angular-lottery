@@ -10,7 +10,6 @@ require.config({
 		'domReady': "../libs/requirejs-domready/domReady",
 		'ng-file-upload-all': "../libs/ng-file-upload/ng-file-upload-all",
 		'socket-io': "../libs/socket.io-client/socket.io",
-        'angular-socket': '../libs/angular-socket-io/socket',
 		'jquery': "../libs/jquery/dist/jquery",
 		'snow': "../plug/snow/snow"
 	},
@@ -39,6 +38,9 @@ require.config({
         },
 		'socket-io': {
 			exports: "io"
+		},
+		'snow': {
+			deps: ['jquery']
 		}
 	},
 	deps: ['./bootstrap']

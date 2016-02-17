@@ -34,10 +34,8 @@ gulp.task('replace', function() {
                 .pipe(cheerio(function($) {
                     $('script').remove();
                     $('link').remove();
-                    $('body').append('<script src="js/socket.io.js"></script>');
                     $('body').append('<script data-main="js/bootstrap" src="js/require.js"></script>');
                     $('body').append('<script src="js/bootstrap.js"></script>');
-                    $('body').append('<script src="js/snow.js"></script>');
                     $('head').append('<link rel="stylesheet" href="css/app.min.css?v='+ rand +'">');
                 }))
                 //.pipe(rename('idx.html'))
@@ -123,18 +121,14 @@ gulp.task('scripts', function() {
                 'angular-toastr.tpls': "public/libs/angular-toastr/dist/angular-toastr.tpls",
                 'angular-local-storage': "public/libs/angular-local-storage/dist/angular-local-storage",
                 'ng-file-upload-all': "public/libs/ng-file-upload/ng-file-upload-all",
-                'socket.io': "public/libs/socket.io-client/socket.io",
-                'socket': './public/libs/angular-socket-io/socket',
+                'socket-io': "public/libs/socket.io-client/socket.io",
                 'jquery': "public/libs/jquery/dist/jquery",
                 'snow': "public/plug/snow/snow"
             },
             shim: {
                 'angular': {
-                    'deps': ['jquery', 'domReady', 'snow'],
+                    'deps': ['jquery', 'domReady'],
                     'exports': 'angular'
-                },
-                'socket': {
-                    'deps': ['angular'],
                 },
                 'angular-ui-router': {
                     deps: ['angular']
@@ -153,6 +147,12 @@ gulp.task('scripts', function() {
                 },
                 'angular-local-storage': {
                     deps: ['angular']
+                },
+                'socket-io': {
+                    exports: "io"
+                },
+                'snow': {
+                    deps: ['jquery']
                 }
             }
         }))
@@ -162,7 +162,7 @@ gulp.task('scripts', function() {
         //.pipe(rename("bootstrap.js"))         //重命名
         .pipe(uplify())                         //压缩
         .pipe(gulp.dest(path.dist + "js"));     //输出保存
-})
+});
 // 编译less
 gulp.task('css', function() {
     if(env.production) {
@@ -190,9 +190,7 @@ gulp.task('copy:html', function() {
 
 gulp.task('copy:libs', function() {
     return gulp.src([
-                        'public/libs/requirejs/require.js',
-                        'public/libs/socket.io-client/socket.io.js',
-                        'public/plug/snow/snow.js'
+                        'public/libs/requirejs/require.js'
                     ])
                .pipe(uplify())
                .pipe(gulp.dest(path.dist + "js"));
@@ -208,6 +206,11 @@ gulp.task('copy:css', function() {
 gulp.task('copy:img', function() {
     return gulp.src(path.img+ "**/*.*")
                .pipe(gulp.dest(path.dist + "images"));
+});
+
+gulp.task('copy:font', function() {
+    return gulp.src("public/libs/bootstrap/fonts/*.*")
+        .pipe(gulp.dest(path.dist + "fonts"));
 });
 
 // clean
@@ -226,4 +229,4 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['watch']);
 gulp.task('script', ['scripts']);
-gulp.task('build', gulpSequence('set-production', 'clean', 'scripts', ['copy:html', 'copy:libs', 'copy:css', 'copy:img'], 'replace'));
+gulp.task('build', gulpSequence('set-production', 'clean', 'scripts', ['copy:html', 'copy:libs', 'copy:css', 'copy:img', 'copy:font'], 'replace'));

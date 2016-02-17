@@ -2,7 +2,6 @@
     appDir: './public/js',
     baseUrl: "./",
     removeCombined: true,
-    // 不能直接混淆，ng会注入失败
     optimize: "none",
     uglify: {
         toplevel: true,
@@ -19,8 +18,7 @@
         'angularStorage': "../libs/angular-local-storage/dist/angular-local-storage",
         'domReady': "../libs/requirejs-domready/domReady",
         'ngFileUpload': "../libs/ng-file-upload/ng-file-upload-all",
-        'socket.io': "../libs/socket.io-client/socket.io",
-        'btford.socket-io': '../libs/angular-socket-io/socket',
+        'socket-io': "../libs/socket.io-client/socket.io",
         'jquery': "../libs/jquery/dist/jquery",
         'snow': "../plug/snow/snow"
     },
@@ -55,11 +53,10 @@
         name: "main",
         include: [ './routes', './app', './bootstrap' ],
         exclude: [ 'angular', 'uiRouter', 'uiBootstrap', 'angularAnimate', 'angularToastr',
-            'angularStorage', 'domReady', 'ngFileUpload', 'socket.io', 'btford.socket-io',
-            'jquery', 'snow'
+            'angularStorage', 'domReady', 'ngFileUpload', 'socket.io', 'jquery', 'snow'
         ]
 
     }],
-    dir: "./public/build",
-    // 试了下，r.js并不太好用，尝试gulp或webpack
+    dir: "./public/dist/js",
+    // r.js打包require项目，继续尝试gulp或webpack
 })

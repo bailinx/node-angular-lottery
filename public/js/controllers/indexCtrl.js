@@ -1,4 +1,4 @@
-define(['./module'], function (controllers) {
+define(['./module', 'jquery', 'snow'], function (controllers, $) {
 	'use strict';
 	controllers.config(['localStorageServiceProvider',
 		function (localStorageServiceProvider) {
