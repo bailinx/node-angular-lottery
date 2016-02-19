@@ -35,10 +35,8 @@ gulp.task('replace', function() {
                     $('script').remove();
                     $('link').remove();
                     $('body').append('<script data-main="js/bootstrap" src="js/require.js"></script>');
-                    $('body').append('<script src="js/bootstrap.js"></script>');
                     $('head').append('<link rel="stylesheet" href="css/app.min.css?v='+ rand +'">');
                 }))
-                //.pipe(rename('idx.html'))
                 .pipe(gulp.dest(path.dist));
 });
 
@@ -159,10 +157,11 @@ gulp.task('scripts', function() {
         .pipe(concat("bootstrap.js"))           //合并
         .pipe(gulp.dest(path.dist + "js"))      //输出保存
         .pipe(ngAnnotate())                     //隐式依赖自动转换成数组标注方式
-        //.pipe(rename("bootstrap.js"))         //重命名
+        // .pipe(rename("bootstrap.js"))           //重命名
         .pipe(uplify())                         //压缩
         .pipe(gulp.dest(path.dist + "js"));     //输出保存
 });
+
 // 编译less
 gulp.task('css', function() {
     if(env.production) {
